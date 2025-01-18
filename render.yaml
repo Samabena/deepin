@@ -3,7 +3,10 @@ services:
     name: app-server
     env: docker
     plan: free
-    dockerfilePath: Dockerfile  # Path to your Dockerfile for the server
+    dockerfilePath: ./backend/Dockerfile  # Path to your Dockerfile for the server
+    build:
+      context: ./backend/app
+    image: samabk/server:1.0
     envVars:
       - key: DATABASE_URL
         value: postgresql://postgres:qwerty@db:5432/deap_innov
