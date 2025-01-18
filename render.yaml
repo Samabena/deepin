@@ -13,7 +13,7 @@ services:
   - type: web
     name: app-database
     env: docker
-    image: postgres 
+    image: ./backend/postgres:13  
     envVars:
       - key: POSTGRES_DB
         value: deap_innov
