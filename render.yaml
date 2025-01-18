@@ -7,8 +7,8 @@ services:
     envVars:
       - key: DATABASE_URL
         value: postgresql://postgres:qwerty@app-database:5432/deap_innov
-    buildCommand: ""
-    startCommand: ""
+    buildCommand: ""  # Optional; can be removed if unused
+    startCommand: ""  # Optional; can be removed if unused
 
   - type: web
     name: app-database
