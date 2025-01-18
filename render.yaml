@@ -15,7 +15,7 @@ services:
     ports:
       - 8000
 
-  - type: private_service
+  - type: web
     name: app-database
     env: docker
     image: postgres:13  # Using the official Postgres image
