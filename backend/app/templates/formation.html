@@ -1,0 +1,141 @@
+{% extends "base.html" %}
+
+{% block title %}formation{% endblock %}
+
+{% block content %}
+
+
+ 
+
+
+<!-- Header with Introduction -->
+<section class=" bg-light">
+  <div class="px-4 py-5 text-center">
+    <h1 class="display-5 fw-bold text-deap">✨ Découvrez Nos Formations ✨</h1>
+    <div class="col-lg-6 mx-auto">
+      <p class="lead mb-4">
+        🚀 Nos formations sont conçues pour vous aider à maîtriser le marketing digital et l’intelligence artificielle, même si vous débutez.  
+        🎯 Faites le premier pas pour transformer votre business dès aujourd’hui !
+      </p>
+      <div class="d-grid gap-2 d-sm-flex justify-content-sm-center">
+        <a href="#nosformations" class="btn btn-deap btn-lg px-4">Voir Nos Formations</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+  
+  <!-- Grid of Courses -->
+  <section id="courses" class="py-5 bg-light">
+    <div class="container">
+      <h2 class="text-center fw-bold mb-4">Nos Formations</h2>
+
+
+      <section class="py-5 bg-dark text-center mb-4 ">
+        <div class="container text-white">
+          <h2 class="fw-bold">⚡ Promotion Spéciale : Temps Limité ! ⚡</h2>
+          <p class="lead">Profitez de nos formations à prix réduit ! Cette offre exceptionnelle se termine dans :</p>
+          <!-- Countdown Timer -->
+          <div id="countdown" class="d-flex justify-content-center gap-3 mt-3">
+            <div class="text-center">
+              <h3 class="fw-bold" id="days">00</h3>
+              <p class="">Jours</p>
+            </div>
+            <div class="text-center ">
+              <h3 class="fw-bold" id="hours">00</h3>
+              <p class="">Heures</p>
+            </div>
+            <div class="text-center">
+              <h3 class="fw-bold " id="minutes">00</h3>
+              <p class="">Minutes</p>
+            </div>
+            <div class="text-center">
+              <h3 class="fw-bold " id="seconds">00</h3>
+              <p class="">Secondes</p>
+            </div>
+          </div>
+          <a href="#inscription" class="btn btn-deap btn-lg mt-4" data-bs-toggle="modal" data-bs-target="#registrationModal">Inscrivez-vous Maintenant</a>
+        </div>
+      </section>
+      
+
+
+      <div class="row gy-4 " id="nosformations">
+        <div class="col-md-4">
+          <div class="card h-100 shadow-sm">
+            <img src="./static/images/publicite.jpg" class="card-img-top" alt="Formation Publicité">
+            <div class="card-body text-center">
+              <h5 class="card-title">📈 Digital Marketing - Publicité</h5>
+              <p class="card-text">Apprenez à créer des publicités performantes pour attirer plus de clients.</p>
+              <h6 class="fw-bold">
+                <span class="text-muted text-decoration-line-through small">39 000 FCFA</span> 19 000 FCFA
+              </h6>
+              
+              <a href="#inscription" class="btn btn-deap mt-2 " data-bs-toggle="modal" data-bs-target="#registrationModal">S'inscrire</a>
+            </div>
+          </div>
+        </div>
+        
+
+        <div class="col-md-4">
+          <div class="card h-100 shadow-sm">
+            <img src="./static/images/contenu.jpg" class="card-img-top" alt="Création de Contenu">
+            <div class="card-body text-center">
+              <h5 class="card-title">✍️ Création de Contenu & Stratégie</h5>
+              <p class="card-text">Maîtrisez les techniques pour créer du contenu engageant et planifiez une stratégie gagnante.</p>
+              <h6 class="fw-bold">
+                <span class="text-muted text-decoration-line-through small">39 000 FCFA</span> 19 000 FCFA
+              </h6>
+              
+              <a href="#inscription" class="btn btn-deap mt-2" data-bs-toggle="modal" data-bs-target="#registrationModal">S'inscrire</a>
+            </div>
+          </div>
+        </div>
+        <!-- Course 3 -->
+        <div class="col-md-4">
+          <div class="card h-100 shadow-sm">
+            <img src="./static/images/ai.jpg" class="card-img-top" alt="Intelligence Artificielle">
+            <div class="card-body text-center">
+              <h5 class="card-title">🤖 Intelligence Artificielle</h5>
+              <p class="card-text">Découvrez comment utiliser l’IA pour automatiser vos tâches et optimiser vos performances.</p>
+              <h6 class="fw-bold">
+                <span class="text-muted text-decoration-line-through small">39 000 FCFA</span> 19 000 FCFA
+              </h6>              
+              <a href="#inscription" class="btn btn-deap mt-2" data-bs-toggle="modal" data-bs-target="#registrationModal">S'inscrire</a>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+  
+  <!-- Pack Complet Section -->
+  <section class="py-5">
+    <div class="container">
+      <div class="row align-items-center">
+        <div class="col-md-6">
+          <img src="./static/images/toutenun.png" alt="Pack Complet" class="img-fluid rounded shadow">
+        </div>
+        <div class="col-md-6 p-3">
+          <h2 class="fw-bold text-deap " id="packcomplet">🌟 Pack Complet 3-en-1</h2>
+          <p>Optez pour le pack complet et bénéficiez de tous nos cours avec des avantages supplémentaires :</p>
+          <ul class="list-unstyled">
+            <li>📚 Accès au livre exclusif : <strong>100 prompts pour dominer votre marché.</strong></li>
+            <li>🎓 Consultation gratuite avec un expert en marketing.</li>
+            <li>🚀 Support prioritaire pour vos projets.</li>
+          </ul>
+          <h4 class="fw-bold">
+            <span class="text-muted text-decoration-line-through small">99 900 FCFA</span> 39 900 FCFA
+          </h4>
+          <a href="#inscription" class="btn btn-deap btn-lg mt-3" data-bs-toggle="modal" data-bs-target="#registrationModal">Je Choisis le Pack Complet</a>
+        </div>
+      </div>
+    </div>
+  </section>
+  
+
+ 
+  
+
+{% endblock %}

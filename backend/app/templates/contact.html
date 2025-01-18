@@ -1,0 +1,123 @@
+{% extends "base.html" %}
+
+{% block title %}Contactez-Nous{% endblock %}
+
+{% block content %}
+
+
+<section class="py-5 bg-light">
+    <div class="container">
+      <!-- Hero Section -->
+      <div class="text-center mb-5">
+        <h1 class="fw-bold text-deap">📞 Nous Contacter</h1>
+        <p class="lead">Nous sommes disponibles pour répondre à toutes vos questions et vous aider à tirer le meilleur parti de nos services. 💬</p>
+      </div>
+  
+      <div class="row gy-5">
+        <!-- Contact Form -->
+        <div class="col-md-6">
+          <h2 class="fw-bold mb-4">💌 Envoyez-nous un Message</h2>
+          <form>
+            <div class="mb-3">
+              <label for="name" class="form-label">Nom Complet</label>
+              <input type="text" class="form-control" id="name" placeholder="Entrez votre nom" required>
+            </div>
+            <div class="mb-3">
+              <label for="email" class="form-label">Adresse Email</label>
+              <input type="email" class="form-control" id="email" placeholder="Entrez votre email" required>
+            </div>
+            <div class="mb-3">
+              <label for="subject" class="form-label">Sujet</label>
+              <input type="text" class="form-control" id="subject" placeholder="Entrez le sujet de votre message" required>
+            </div>
+            <div class="mb-3">
+              <label for="message" class="form-label">Message</label>
+              <textarea class="form-control" id="message" rows="5" placeholder="Écrivez votre message ici..." required></textarea>
+            </div>
+            <div class="d-grid">
+              <button type="submit" class="btn btn-deap">Envoyer le Message</button>
+            </div>
+          </form>
+        </div>
+  
+        <!-- Contact Information -->
+        <div class="col-md-6">
+          <h2 class="fw-bold mb-4">📍 Informations de Contact</h2>
+          <p class="mb-3"><i class="bi bi-geo-alt-fill text-deap"></i> <strong>Adresse :</strong> Abidjan | Libreville | Accra </p>
+          <p class="mb-3"><i class="bi bi-envelope-fill text-deap"></i> <strong>Email :</strong> info@deap-innov.com</p>
+          <p class="mb-3"><i class="bi bi-telephone-fill text-deap"></i> <strong>Téléphone :</strong> +225 07 789 606 22 | +241 07 24 89 25 | +233 055 612 8170</p>
+          <p class="mb-3"><i class="bi bi-whatsapp text-deap"></i> <strong>WhatsApp :</strong> +225 07 789 606 22 | +241 07 24 89 25 | +233 055 612 8170 </p>
+          <h3 class="fw-bold mt-4">🌐 Suivez-nous</h3>
+          <div class="d-flex gap-3">
+            <a href="#" class="text-muted fs-3"><i class="bi bi-facebook"></i></a>
+            <a href="#" class="text-muted fs-3"><i class="bi bi-instagram"></i></a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <div class="text-center my-5 pt-5">
+    <h2 class="fw-bold text-deap">💬 Discutez avec Notre Chatbot</h2>
+    <p class="lead">Besoin d'une réponse rapide ? Discutez avec notre chatbot pour des solutions instantanées ! 🤖</p>
+    <a href="https://chatgpt.com/g/g-6772852ed6448191acdd966cca204e0b-deap-innov" target="_blank" class="btn btn-outline-secondary btn-lg">
+      Lancer le Chatbot
+    </a>
+  </div>
+  
+  <!-- FAQ Section -->
+  <section class="py-5 bg-body-tertiary">
+    <div class="container">
+      <div class="text-center mb-5">
+        <h2 class="fw-bold text-deap">❓ Questions Fréquemment Posées (FAQ)</h2>
+        <p class="lead">Vous avez des questions ? Consultez nos réponses aux questions les plus courantes. 📖</p>
+      </div>
+      <div class="accordion" id="faqAccordion">
+        <!-- Question 1 -->
+        <div class="accordion-item">
+          <h2 class="accordion-header" id="faqHeading1">
+            <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#faq1" aria-expanded="true" aria-controls="faq1">
+              📌 Quels sont les moyens de paiement acceptés ?
+            </button>
+          </h2>
+          <div id="faq1" class="accordion-collapse collapse show" aria-labelledby="faqHeading1" data-bs-parent="#faqAccordion">
+            <div class="accordion-body">
+              Nous acceptons les paiements par mobile money, transfert bancaire, et cash. Veuillez nous contacter pour plus de détails !
+            </div>
+          </div>
+        </div>
+        <!-- Question 2 -->
+        <div class="accordion-item">
+          <h2 class="accordion-header" id="faqHeading2">
+            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#faq2" aria-expanded="false" aria-controls="faq2">
+              📌 Comment puis-je recevoir une confirmation de mon inscription ?
+            </button>
+          </h2>
+          <div id="faq2" class="accordion-collapse collapse" aria-labelledby="faqHeading2" data-bs-parent="#faqAccordion">
+            <div class="accordion-body">
+              Une fois que vous avez soumis votre inscription et effectué le paiement, vous recevrez un email ou un message WhatsApp confirmant votre participation.
+            </div>
+          </div>
+        </div>
+        <!-- Question 3 -->
+        <div class="accordion-item">
+          <h2 class="accordion-header" id="faqHeading3">
+            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#faq3" aria-expanded="false" aria-controls="faq3">
+              📌 Puis-je changer de formation après mon inscription ?
+            </button>
+          </h2>
+          <div id="faq3" class="accordion-collapse collapse" aria-labelledby="faqHeading3" data-bs-parent="#faqAccordion">
+            <div class="accordion-body">
+              Oui, vous pouvez changer de formation si des places sont disponibles dans le nouveau cours choisi. Contactez-nous rapidement pour vérifier les disponibilités !
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+  
+
+ 
+  
+
+{% endblock %}

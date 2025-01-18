@@ -1,0 +1,80 @@
+html, body {
+    height: 100%;
+    margin: 0;
+    padding: 0;
+    overflow: auto;
+    scroll-behavior: smooth;
+}
+
+body {
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh; /* Ensures the body fills the viewport */
+}
+
+main {
+    flex: 1;
+}
+
+footer {
+    position: relative; /* Footer stays at the bottom */
+    bottom: 0;
+    width: 100%;
+}
+
+
+.sticky-top {
+    z-index: 3; /* Ensure it appears above content */
+}
+
+
+[role="region"][aria-label="Notifications (F8)"] {
+    display: none !important;
+}
+
+.btn-deap-outline {
+    color: #e26e0f; 
+    background-color: transparent; 
+    border: 2px solid #e26e0f;
+    transition: all 0.3s ease-in-out; 
+}
+
+.btn-deap-outline:hover {
+    color: #fff; 
+    background-color: #e26e0f; 
+    border-color: #e26e0f; 
+}
+
+.text-deap {
+    color: #e26e0f !important; 
+}
+
+.bg-deap{
+    background-color: #e26e0f; 
+}
+
+.btn-deap {
+    color: #fff !important; 
+    background-color: #e26e0f; 
+    border: none; 
+}
+
+.btn-deap:hover {
+    background-color: #c9560c; 
+    color: #fff; 
+    transition: background-color 0.3s ease-in-out, color 0.3s ease-in-out; 
+}
+
+.testimonial-img {
+    width: 80px;
+    height: 80px;
+    object-fit: cover; /* Ensures the image is cropped to fit within the dimensions */
+  }
+
+  .modal {
+    z-index: 1050 !important; /* Ensures the modal appears on top */
+}
+
+.modal-backdrop {
+    z-index: 1040 !important; /* Ensures the backdrop appears below the modal but above other elements */
+}

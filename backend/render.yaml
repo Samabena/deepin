@@ -1,0 +1,24 @@
+services:
+  - type: web
+    name: app-server
+    env: docker
+    plan: free
+    dockerfilePath: Dockerfile  # Path to your Dockerfile for the server
+    envVars:
+      - key: DATABASE_URL
+        value: postgresql://postgres:qwerty@db:5432/deap_innov
+    buildCommand: ""
+    startCommand: ""
+    ports:
+      - 8000
+
+  - type: private_service
+    name: app-database
+    env: docker
+    image: postgres:13  # Using the official Postgres image
+    envVars:
+      - key: POSTGRES_DB
+        value: deap_innov
+      - key: POSTGRES_PASSWORD
+        value: qwerty
+    plan: free

@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}Formation AI{% endblock %}</title>
+    <link href="./static/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css" rel="stylesheet">
+    <link href="./static/css/style.css" rel="stylesheet">
+
+
+</head>
+<body>
+    <!-- Navbar -->
+
+    <nav class="navbar navbar-expand-lg bg-body-tertiary rounded sticky-top">
+        <div class="container-fluid">
+            <div class="d-flex align-items-center">
+                <a class="navbar-brand" href="/">
+                    <img src="./static/images/deap-logo.png" alt="Logo-deap" style="max-height: 80px;">
+                </a>
+            </div>
+            <button class="navbar-toggler ms-auto" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse justify-content-center" id="navbarNav">
+                <ul class="navbar-nav text-center">
+                    <li class="nav-item"><a class="nav-link active fs-5" href="/">Accueil</a></li>
+                    <li class="nav-item"><a class="nav-link fs-5" href="/nos-formations">Formations</a></li>
+                    <li class="nav-item"><a class="nav-link fs-5" href="/contactez-nous">Contact</a></li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+    
+    
+    
+
+    <!-- Main Content -->
+    <main>
+
+
+        <!-- Registration Modal -->
+    <div class="modal fade" id="registrationModal" tabindex="-1" aria-labelledby="registrationModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+        <div class="modal-content">
+            <div class="modal-header bg-deap text-white">
+            <h5 class="modal-title" id="registrationModalLabel">Inscription à Nos Formations</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+            <!-- Registration Form -->
+            <form>
+                <!-- Full Name -->
+                <div class="mb-3">
+                <label for="fullName" class="form-label">Nom Complet</label>
+                <input type="text" class="form-control" id="fullName" placeholder="Entrez votre nom complet" required>
+                </div>
+                <!-- WhatsApp Number -->
+                <div class="mb-3">
+                <label for="whatsappNumber" class="form-label">Numéro WhatsApp</label>
+                <input type="tel" class="form-control" id="whatsappNumber" placeholder="Exemple : +241 07 00 00 00" required>
+                </div>
+                <!-- Email -->
+                <div class="mb-3">
+                <label for="emailAddress" class="form-label">Adresse Email</label>
+                <input type="email" class="form-control" id="emailAddress" placeholder="Exemple : nom@email.com" required>
+                </div>
+                <!-- Gender -->
+                <div class="mb-3">
+                <label for="gender" class="form-label">Genre</label>
+                <select class="form-select" id="gender" required>
+                    <option value="" disabled selected>Choisissez...</option>
+                    <option value="male">Homme</option>
+                    <option value="female">Femme</option>
+                </select>
+                </div>
+                <!-- Preferred Course -->
+                <div class="mb-3">
+                <label for="preferredCourse" class="form-label">Formation Préférée</label>
+                <select class="form-select" id="preferredCourse" required>
+                    <option value="" disabled selected>Choisissez une formation...</option>
+                    <option value="digital-marketing">📈 Digital Marketing - Publicité | 19 000 FCFA</option>
+                    <option value="content-creation">✍️ Création de Contenu & Stratégie | 19 000 FCFA</option>
+                    <option value="ai">🤖 Intelligence Artificielle | 19 000 FCFA</option>
+                    <option value="complete-pack">🌟 Pack Complet 3-en-1 | 39 900 FCFA</option>
+                </select>
+                </div>
+                <!-- Agreement Checkbox -->
+                <div class="mb-3 form-check">
+                <input type="checkbox" class="form-check-input" id="agreement" required>
+                <label class="form-check-label" for="agreement">
+                    <strong>Je valide mon inscription</strong> et je prends l'engagement de faire mon paiement 
+                    <strong>par mobile money ou par cash</strong>, quelle que soit la méthode qui me sera facile afin de valider mon inscription. 
+                    <br> <strong>Je reconnais</strong> que ma place sera automatiquement changée si je ne valide pas mon inscription dans un bref délai. 🚨
+                </label>
+                </div>
+                <!-- Urgency Statement -->
+                <div class="alert alert-warning text-center mt-3" role="alert">
+                ⚠️ <strong>Attention !</strong> Les places sont limitées ! Assurez-vous de valider votre inscription rapidement 
+                pour garantir votre participation. ⏳
+                </div>
+                <!-- Submit Button -->
+                <div class="d-grid">
+                <button type="submit" class="btn btn-deap">Valider l'Inscription</button>
+                </div>
+            </form>
+            </div>
+            <div class="modal-footer">
+            <p class="text-muted text-center w-100">Nous vous contacterons bientôt pour confirmer votre inscription. 📞</p>
+            </div>
+        </div>
+        </div>
+    </div>
+
+
+        {% block content %}{% endblock %}
+    </main>
+
+    <!-- Footer -->
+    <footer class="py-3 bg-body-tertiary">
+        <ul class="nav justify-content-center border-bottom pb-3 mb-3">
+            <li class="nav-item"><a href="/" class="nav-link px-2 text-body-secondary">Acceuil</a></li>
+            <li class="nav-item"><a href="/nos-formations" class="nav-link px-2 text-body-secondary">Formations</a></li>
+            <li class="nav-item"><a href="/contactez-nous" class="nav-link px-2 text-body-secondary">Contact</a></li>
+        </ul>
+        <p class="text-center text-body-secondary text-deap" style="font-weight: bold;">© 2025 | DEAP INNOV</p>
+        <p class="text-center text-muted">
+            <i class="bi bi-geo-alt-fill"></i> Abidjan, Accra, Libreville
+        </p>
+    </footer>
+    
+
+
+
+    <script src="./static/js/bootstrap.bundle.min.js"></script>
+    <script src="./static/js/frontend.js"></script>
+    <script src="./static/js/backend.js"></script>
+</body>
+</html>
+

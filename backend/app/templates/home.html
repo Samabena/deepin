@@ -1,0 +1,240 @@
+{% extends "base.html" %}
+
+{% block title %}Home - Formation AI{% endblock %}
+
+{% block content %}
+<div id="heroCarousel" class="carousel slide" data-bs-ride="carousel">
+    <div class="carousel-inner">
+      <!-- Content 1 -->
+      <div class="carousel-item active">
+        <div class="px-4 py-5 text-center">
+          <h1 class="display-5 fw-bold text-deap">Découvrez la Puissance de l'IA</h1>
+          <div class="col-lg-6 mx-auto">
+            <p class="lead mb-4">Apprenez comment l’intelligence artificielle peut vous aider à <strong>automatiser</strong> vos tâches, <strong>augmenter vos ventes</strong>, et <strong>gagner du temps</strong> dans votre business. 🚀</p>
+            <div class="d-grid gap-2 d-sm-flex justify-content-sm-center">
+              <a href="/nos-formations/#nosformations" class="btn btn-deap btn-lg px-4 gap-3">Commencez Maintenant</a>
+              <button type="button" class="btn btn-outline-secondary btn-lg px-4" data-bs-toggle="modal" data-bs-target="#infoModal">En Savoir Plus</button>
+            </div>
+          </div>
+        </div>
+      </div>
+      <!-- Content 2 -->
+      <div class="carousel-item">
+        <div class="px-4 py-5  text-center">
+          <h1 class="display-5 fw-bold text-deap">Nos Formations Exclusives</h1>
+          <div class="col-lg-6 mx-auto">
+            <p class="lead mb-4">Que vous soyez débutant ou expérimenté, découvrez nos formations : <strong>Publicité Digital Marketing</strong>, <strong>Création de Contenu & Stratégie</strong>, et <strong>Intelligence Artificielle</strong>. 💡</p>
+            <div class="d-grid gap-2 d-sm-flex justify-content-sm-center">
+                <button type="button" class="btn btn-deap btn-lg px-4" data-bs-toggle="modal" data-bs-target="#registrationModal">Inscrivez-Vous</button> 
+                <a href="/nos-formations/#nosformations" class="btn btn-outline-secondary  btn-lg px-4 gap-3">Voir les Détails</a>
+        
+
+            </div>
+          </div>
+        </div>
+      </div>
+      <!-- Content 3 -->
+      <div class="carousel-item">
+        <div class="px-4 py-5  text-center">
+          <h1 class="display-5 fw-bold text-deap">Pack Complet 3-en-1</h1>
+          <div class="col-lg-6 mx-auto">
+            <p class="lead mb-4">Optez pour notre pack complet et bénéficiez de tous nos cours avec des bonus exclusifs : <strong>eBook 100 Prompts pour Surpasser vos Concurrents</strong>, <strong>Support Personnalisé</strong>, et <strong>Attestation de Participation</strong>. 🎁</p>
+            <div class="d-grid gap-2 d-sm-flex justify-content-sm-center">
+              <a href="/nos-formations/#packcomplet" class="btn btn-deap btn-lg px-4 gap-3">Découvrir le Pack</a>
+              <a href="/contactez-nous" class="btn btn-outline-secondary btn-lg px-4">Contactez-Nous</a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- Controls -->
+    <button class="carousel-control-prev" type="button" data-bs-target="#heroCarousel" data-bs-slide="prev">
+      <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+      <span class="visually-hidden">Précédent</span>
+    </button>
+    <button class="carousel-control-next" type="button" data-bs-target="#heroCarousel" data-bs-slide="next">
+      <span class="carousel-control-next-icon" aria-hidden="true"></span>
+      <span class="visually-hidden">Suivant</span>
+    </button>
+  </div>
+
+
+<!-- Modal -->
+<div class="modal fade" id="infoModal" tabindex="-1" aria-labelledby="infoModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+      <div class="modal-content">
+        <div class="modal-header bg-deap text-white">
+          <h5 class="modal-title" id="infoModalLabel">Pourquoi Choisir l’IA pour Votre Business ?</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          <p>
+            🌟 <strong>Imaginez ceci :</strong> Vous arrivez à <strong>automatiser</strong> vos tâches répétitives, 
+            à atteindre plus de clients, et à consacrer plus de temps à ce qui compte vraiment. C'est ce que 
+            l'intelligence artificielle peut faire pour vous ! 💡
+          </p>
+          <p>
+            🚀 Grâce à nos formations, vous apprendrez comment utiliser des outils d'IA simples mais puissants pour : 
+            <ul>
+              <li>✨ Créer du contenu qui capte immédiatement l'attention de vos clients.</li>
+              <li>📈 Optimiser vos campagnes publicitaires pour un meilleur retour sur investissement.</li>
+              <li>⏳ Automatiser des tâches répétitives comme l'envoi d'emails ou la gestion des messages clients.</li>
+            </ul>
+          </p>
+          <p>
+            🎯 <strong>Résultat :</strong> Vous travaillez moins tout en augmentant vos revenus. Vous devenez un expert 
+            du digital avec des outils d'IA adaptés même pour les débutants.
+          </p>
+          <p>
+            ⚠️ <strong>Ne perdez pas de temps :</strong> Les places sont limitées et la concurrence devient de plus en 
+            plus rude. Prenez une longueur d'avance aujourd'hui !
+          </p>
+          <div class="text-center">
+            <a href="#inscription" class="btn btn-deap btn-lg mt-3" data-bs-toggle="modal" data-bs-target="#registrationModal">S'inscrire Maintenant</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  
+
+
+  <section class="py-5 bg-light w-100">
+    <div class="container">
+      <h2 class="text-center fw-bold mb-4">Pourquoi Choisir Nos Formations ?</h2>
+      <div class="row gy-4">
+        <!-- Card 1 -->
+        <div class="col-md-4">
+          <div class="card h-100 shadow-sm">
+            <img src="./static/images/fromation pratique.jpeg" class="card-img-top" alt="Formation Pratique">
+            <div class="card-body text-center">
+              <h5 class="card-title">🎯 Formation 100% Pratique</h5>
+              <p class="card-text">Apprenez des techniques directement applicables pour booster vos ventes et optimiser votre marketing.</p>
+            </div>
+          </div>
+        </div>
+        <!-- Card 2 -->
+        <div class="col-md-4">
+          <div class="card h-100 shadow-sm">
+            <img src="./static/images/outils.png" class="card-img-top" alt="Outils Modernes">
+            <div class="card-body text-center">
+              <h5 class="card-title">⚙️ Outils Modernes</h5>
+              <p class="card-text">Utilisez des outils comme ChatGPT, Canva, et Mailchimp pour automatiser et simplifier vos tâches.</p>
+            </div>
+          </div>
+        </div>
+        <!-- Card 3 -->
+        <div class="col-md-4">
+          <div class="card h-100 shadow-sm">
+            <img src="./static/images/accompagnement.jpg" class="card-img-top" alt="Accompagnement Personnalisé">
+            <div class="card-body text-center">
+              <h5 class="card-title">🤝 Accompagnement Personnalisé</h5>
+              <p class="card-text">Bénéficiez d’un support dédié pour vous guider dans votre apprentissage et votre croissance.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+  
+
+
+  <section class="py-5 bg-light">
+    <div class="container">
+      <h2 class="text-center fw-bold mb-4">Ce Que Nos Participants Disent</h2>
+      <div class="row gy-4">
+        <!-- Testimonial 1 -->
+        <div class="col-md-4">
+          <div class="card  shadow-sm h-100">
+            <div class="card-body text-center">
+              <img src="./static/images/fatou.png" alt="Marie" class="rounded-circle mb-3" style="width: 80px; height: 80px; object-fit: cover;">
+              <h5 class="card-title fw-bold">Fatou B.</h5>
+              <p class="card-text text-muted">
+                <em>"Grâce à cette formation, j'ai doublé mes ventes en 3 mois ! Les outils et astuces sont faciles à appliquer."</em>
+              </p>
+              <span class="text-warning">★★★★★</span>
+            </div>
+          </div>
+        </div>
+        <!-- Testimonial 2 -->
+        <div class="col-md-4">
+          <div class="card shadow-sm  h-100">
+            <div class="card-body text-center">
+              <img src="./static/images/ali.png" alt="Ali" class="rounded-circle mb-3" style="width: 80px; height: 80px; object-fit: cover;">
+              <h5 class="card-title fw-bold">Ali K.</h5>
+              <p class="card-text text-muted">
+                <em>"Je recommande cette formation à 100% ! Elle m’a permis de lancer ma première campagne publicitaire avec succès."</em>
+              </p>
+              <span class="text-warning">★★★★★</span>
+            </div>
+          </div>
+        </div>
+        <!-- Testimonial 3 -->
+        <div class="col-md-4">
+          <div class="card shadow-sm h-100">
+            <div class="card-body text-center">
+              <img src="./static/images/marie.png" alt="Fatou" class="rounded-circle mb-3" style="width: 80px; height: 80px; object-fit: cover;">
+              <h5 class="card-title fw-bold">Marie D.</h5>
+              <p class="card-text text-muted">
+                <em>"L'accompagnement personnalisé est vraiment un plus. J’ai enfin compris comment automatiser mes tâches marketing."</em>
+              </p>
+              <span class="text-warning">★★★★★</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+  
+  
+
+
+  <section class="py-5 bg-light w-100">
+    <div class="container">
+      <h2 class="text-center fw-bold mb-4">Les Avantages de Nos Formations</h2>
+      <div class="row">
+        <!-- First Advantage -->
+        <div class="col-md-4 text-center">
+          <div class="p-4">
+            <i class="bi bi-brush-fill display-4 text-info"></i>
+            <h5 class="mt-3">🎨 Créez du Contenu Engageant</h5>
+            <p>Apprenez à créer des visuels et des textes captivants 🎯 qui génèrent des résultats impressionnants.</p>
+          </div>
+        </div>
+        <!-- Second Advantage -->
+        <div class="col-md-4 text-center">
+          <div class="p-4">
+            <i class="bi bi-bullseye display-4 text-primary"></i>
+            <h5 class="mt-3">📈 Attirez Plus de Clients</h5>
+            <p>Utilisez des stratégies publicitaires testées 🛒 pour atteindre les bonnes personnes au bon moment.</p>
+          </div>
+        </div>
+        <!-- Third Advantage -->
+        <div class="col-md-4 text-center">
+          <div class="p-4">
+            <i class="bi bi-clock-history display-4 text-success"></i>
+            <h5 class="mt-3">⏳ Gagnez du Temps</h5>
+            <p>Automatisez vos tâches marketing grâce à des outils puissants 🤖 comme l'IA.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+  
+
+
+
+  <section class="py-5 text-white" style="background-color: #e26e0f;">
+    <div class="container text-center">
+      <h2 class="fw-bold mb-4">Prêt à Transformer Votre Business ?</h2>
+      <p class="lead mb-4">Découvrez nos formations adaptées à vos besoins et propulsez votre activité au niveau supérieur.</p>
+      <a href="/nos-formations/#nosformations" class="btn btn-light btn-lg px-4">Voir les Formations</a>
+    </div>
+  </section>
+  
+  
+  
+  
+  
+
+{% endblock %}

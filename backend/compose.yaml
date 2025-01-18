@@ -1,0 +1,35 @@
+version: "3.8"
+
+services:
+  server:
+    build:
+      context: .
+    image: samabk/server:1.0
+    ports:
+      - "8000:8000"
+    depends_on:
+      db:
+        condition: service_healthy
+    environment:
+      DATABASE_URL: "postgresql+psycopg2://postgres:qwerty@db:5432/deap_innov"
+
+  db:
+    image: postgres:13
+    restart: always
+    environment:
+      POSTGRES_DB: deap_innov
+      POSTGRES_PASSWORD: qwerty
+    ports:
+      - "5432:5432"
+    volumes:
+      - db-data:/var/lib/postgresql/data
+    expose:
+      - 5432
+    healthcheck:
+      test: ["CMD", "pg_isready", "-U", "postgres"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+volumes:
+  db-data:
