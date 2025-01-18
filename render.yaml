@@ -3,17 +3,17 @@ services:
     name: app-server
     env: docker
     plan: free
-    dockerfilePath: ./backend/Dockerfile  # Path to your Dockerfile for the server
+    dockerfilePath: ./backend/Dockerfile  
     envVars:
       - key: DATABASE_URL
         value: postgresql://postgres:qwerty@app-database:5432/deap_innov
-    buildCommand: ""  # Optional; can be removed if unused
-    startCommand: ""  # Optional; can be removed if unused
+    buildCommand: ""  
+    startCommand: ""  
 
   - type: web
     name: app-database
     env: docker
-    image: postgres:13  # Using the official PostgreSQL image
+    image: postgres:13  
     envVars:
       - key: POSTGRES_DB
         value: deap_innov
