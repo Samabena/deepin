@@ -4,21 +4,16 @@ services:
     env: docker
     plan: free
     dockerfilePath: ./backend/Dockerfile  # Path to your Dockerfile for the server
-    build:
-      context: ./backend/app
-    image: samabk/server:1.0
     envVars:
       - key: DATABASE_URL
-        value: postgresql://postgres:qwerty@db:5432/deap_innov
+        value: postgresql://postgres:qwerty@app-database:5432/deap_innov
     buildCommand: ""
     startCommand: ""
-    ports:
-      - 8000
 
   - type: web
     name: app-database
     env: docker
-    image: postgres:13  # Using the official Postgres image
+    image: postgres:13  # Using the official PostgreSQL image
     envVars:
       - key: POSTGRES_DB
         value: deap_innov
