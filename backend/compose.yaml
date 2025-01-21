@@ -4,14 +4,15 @@ services:
   server:
     build:
       context: .
-    image: samabk/server:1.0
+      dockerfile: Dockerfile
+    image: samabk/server:3.0
     ports:
       - "8000:8000"
     depends_on:
       db:
         condition: service_healthy
     environment:
-      DATABASE_URL: "postgresql+psycopg2://postgres:qwerty@db:5432/deap_innov"
+      DATABASE_URL: ${DATABASE_URL} 
 
   db:
     image: postgres:13
