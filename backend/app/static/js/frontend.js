@@ -38,3 +38,10 @@
     }
   }, 1000);
 
+
+import Chatbot from "https://cdn.jsdelivr.net/npm/flowise-embed/dist/web.js"
+Chatbot.init({
+    chatflowid: "72d74c24-f5fd-4ca7-b150-999bd602aaa6",
+    apiHost: "https://flowise-test-wv07.onrender.com",
+})
+

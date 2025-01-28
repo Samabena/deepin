@@ -1,3 +1,6 @@
+import {showPopupAlert, showAlert } from './conmon.js';
+
+
 // POST FORM 
 
 document.querySelector("form").addEventListener("submit", async (e) => {
@@ -11,17 +14,22 @@ document.querySelector("form").addEventListener("submit", async (e) => {
       agreement: document.getElementById("agreement").checked,
     };
     
-    const response = await fetch("http://127.0.0.1:8000/register", {
+    const response = await fetch("/register", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify(formData),
     });
     
     if (response.ok) {
-      alert("Inscription réussie !");
+      showPopupAlert("Inscription réussie !");
+    
+      const modal = bootstrap.Modal.getInstance(document.getElementById("registrationModal"));
+      modal.hide();
+
+      document.querySelector("form").reset();
     } else {
       const error = await response.json();
-      alert(`Erreur: ${error.detail}`);
+      showAlert(`Erreur: ${error.detail}`, 'danger', '#alertContainer');
     }
   });
   
