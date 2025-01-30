@@ -21,7 +21,7 @@ document.querySelector("form").addEventListener("submit", async (e) => {
     });
     
     if (response.ok) {
-      showPopupAlert("Inscription réussie !");
+      showPopupAlert("Inscription réussie ! Veuillez consulter votre boîte e-mail.");
     
       const modal = bootstrap.Modal.getInstance(document.getElementById("registrationModal"));
       modal.hide();
@@ -33,3 +33,49 @@ document.querySelector("form").addEventListener("submit", async (e) => {
     }
   });
   
+
+  // SENDING MESSAGE FROM CONTACT US 
+
+  document.getElementById("contactForm").addEventListener("submit", async function (event) {
+    event.preventDefault(); 
+
+    // Collect form data
+    const formData = new FormData();
+    formData.append("name", document.getElementById("name").value);
+    formData.append("email", document.getElementById("email").value);
+    formData.append("subject", document.getElementById("subject").value);
+    formData.append("message", document.getElementById("message").value);
+
+    // Send data to FastAPI backend
+    try {
+        const response = await fetch("/send-message", {
+            method: "POST",
+            body: formData
+        });
+
+        const result = await response.json();
+
+        if (response.ok) {
+            document.getElementById("responseMessage").innerText = result.message;
+            document.getElementById("contactForm").reset();
+            setTimeout(() => {
+            document.getElementById("responseMessage").innerText = "";
+          }, 5000);
+
+        } else {
+            document.getElementById("responseMessage").innerText = "Erreur : " + result.error;
+            document.getElementById("responseMessage").style.color = "red";
+            setTimeout(() => {
+            document.getElementById("responseMessage").innerText = "";
+          }, 5000);
+
+        }
+    } catch (error) {
+        console.error("Erreur:", error);
+        document.getElementById("responseMessage").innerText = "Une erreur est survenue.";
+        document.getElementById("responseMessage").style.color = "red";
+        setTimeout(() => {
+        document.getElementById("responseMessage").innerText = "";
+      }, 5000);
+    }
+});

@@ -9,7 +9,7 @@ html, body {
 body {
     display: flex;
     flex-direction: column;
-    min-height: 100vh; /* Ensures the body fills the viewport */
+    min-height: 100vh; 
 }
 
 main {
@@ -17,14 +17,14 @@ main {
 }
 
 footer {
-    position: relative; /* Footer stays at the bottom */
+    position: relative; 
     bottom: 0;
     width: 100%;
 }
 
 
 .sticky-top {
-    z-index: 3; /* Ensure it appears above content */
+    z-index: 3; 
 }
 
 
@@ -33,29 +33,29 @@ footer {
 }
 
 .btn-deap-outline {
-    color: #e26e0f; 
+    color: #f86308; 
     background-color: transparent; 
-    border: 2px solid #e26e0f;
+    border: 2px solid #f86308;
     transition: all 0.3s ease-in-out; 
 }
 
 .btn-deap-outline:hover {
     color: #fff; 
-    background-color: #e26e0f; 
-    border-color: #e26e0f; 
+    background-color: #f86308; 
+    border-color: #f86308; 
 }
 
 .text-deap {
-    color: #e26e0f !important; 
+    color: #f86308 !important; 
 }
 
 .bg-deap{
-    background-color: #e26e0f; 
+    background-color: #f86308; 
 }
 
 .btn-deap {
     color: #fff !important; 
-    background-color: #e26e0f; 
+    background-color: #f86308; 
     border: none; 
 }
 
@@ -68,13 +68,77 @@ footer {
 .testimonial-img {
     width: 80px;
     height: 80px;
-    object-fit: cover; /* Ensures the image is cropped to fit within the dimensions */
+    object-fit: cover; 
   }
 
   .modal {
-    z-index: 1050 !important; /* Ensures the modal appears on top */
+    z-index: 1050 !important; 
 }
 
 .modal-backdrop {
-    z-index: 1040 !important; /* Ensures the backdrop appears below the modal but above other elements */
+    z-index: 1040 !important; 
 }
+
+
+.nav-link {
+    position: relative;
+    text-decoration: none;
+    color: inherit; 
+}
+
+.nav-link.active::after {
+    content: '';
+    position: absolute;
+    bottom: 0px; 
+    left: 0;
+    width: 100%;
+    height: 3px; 
+    background-color: #f86308;
+    border-radius: 2px;
+}
+
+/* Styles for small screens */
+@media (max-width: 768px) { /* Target small screens */
+    .nav-link {
+        position: static; /* Remove ::after pseudo-element */
+        font-weight: normal; /* Reset bold for inactive links */
+    }
+
+    .nav-link.active {
+        font-weight: bold; /* Make the active link bold */
+    }
+
+    .nav-link.active::after {
+        content: none; /* Remove the underline effect */
+    }
+}
+
+.btn-outline-secondary:hover , .btn-light:hover {
+    border-color: #000000 !important; 
+    background-color: #000000 !important;
+    color: #fff;
+}
+
+.alert-content {
+    background-color: #000;
+    color: #fff;
+    padding: 15px 25px;
+    border-radius: 8px;
+    font-size: 1.1rem;
+    text-align: center;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
+    pointer-events: auto;
+}
+
+#popupAlert {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 9999; 
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    pointer-events: none; 
+}
+

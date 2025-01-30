@@ -39,9 +39,22 @@
   }, 1000);
 
 
-import Chatbot from "https://cdn.jsdelivr.net/npm/flowise-embed/dist/web.js"
-Chatbot.init({
-    chatflowid: "72d74c24-f5fd-4ca7-b150-999bd602aaa6",
-    apiHost: "https://flowise-test-wv07.onrender.com",
-})
 
+
+  document.addEventListener("DOMContentLoaded", () => {
+    const navLinks = document.querySelectorAll(".nav-link");
+
+    const currentPath = window.location.pathname;
+    navLinks.forEach((link) => {
+        if (link.getAttribute("href") === currentPath) {
+            link.classList.add("active");
+        }
+    });
+
+    navLinks.forEach((link) => {
+        link.addEventListener("click", (event) => {
+            navLinks.forEach((link) => link.classList.remove("active"));
+            event.currentTarget.classList.add("active");
+        });
+    });
+});

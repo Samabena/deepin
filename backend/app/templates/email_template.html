@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <title>🎉 Félicitations et Bienvenue ! 🚀</title>
+</head>
+<body>
+    <p>Bonjour {{ fullname }} 👋,</p>
+
+    <p>🎉 <strong>Félicitations !</strong> Vous avez fait un excellent choix en rejoignant notre formation en  
+        <strong>{% if preferred_course == 'ai' %}Intelligence Artificielle{% else %}{{ preferred_course }}{% endif %}</strong> 🚀.  
+        <strong>C’est une décision qui peut transformer votre avenir et vous ouvrir des portes incroyables ! 🌟</strong>  
+    </p>
+
+    <p>Votre classe vous attend ! Ne perdez pas de temps ⏳, finalisez vite votre inscription :</p>
+
+    <p>📲 Contactez nous sur WhatsApp pour payer :</p>
+    <ul>
+        <li>🇨🇮 <a href="https://wa.me/VOTRE_NUMERO_CI?text=Bonjour%2C%20je%20veux%20finaliser%20mon%20inscription%20pour%20{% if preferred_course == 'ai' %}Intelligence%20Artificielle{% else %}{{ preferred_course }}{% endif %}." target="_blank">Côte d'Ivoire</a></li>
+        <li>🇬🇦 <a href="https://wa.me/VOTRE_NUMERO_GABON?text=Bonjour%2C%20je%20veux%20finaliser%20mon%20inscription%20pour%20{% if preferred_course == 'ai' %}Intelligence%20Artificielle{% else %}{{ preferred_course }}{% endif %}." target="_blank">Gabon</a></li>
+        <li>🌍 <a href="https://wa.me/VOTRE_NUMERO_GLOBAL?text=Bonjour%2C%20je%20veux%20finaliser%20mon%20inscription%20pour%20{% if preferred_course == 'ai' %}Intelligence%20Artificielle{% else %}{{ preferred_course }}{% endif %}." target="_blank">Autres pays</a></li>
+    </ul>
+
+    <p>🔥 <strong>Ne laissez pas cette opportunité vous échapper !</strong> Nous avons hâte de vous accueillir en classe 🎓.</p>
+
+    <p>À très bientôt,</p>
+    <p><strong>L’équipe de Formations 🚀</strong></p>
+</body>
+</html>
