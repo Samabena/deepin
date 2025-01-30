@@ -1,6 +1,73 @@
 import {showPopupAlert, showAlert } from './conmon.js';
 
 
+
+// BLOG POST SETTINGS 
+
+
+document.getElementById("blogForm").addEventListener("submit", async function(event) {
+  
+  event.preventDefault();  // ✅ Prevents default GET request
+  event.stopPropagation(); // ✅ Prevents propagation issues
+
+  alert("clicked")
+
+  console.log("Submitting form..."); // ✅ Debugging log
+
+  const formData = new FormData(this);
+  const imageFile = formData.get("image");
+
+  if (!imageFile) {
+      alert("📸 Veuillez sélectionner une image avant de publier !");
+      return;
+  }
+
+  try {
+      // 🔹 Upload Image to Cloudinary
+      const cloudinaryForm = new FormData();
+      cloudinaryForm.append("file", imageFile);
+      cloudinaryForm.append("upload_preset", "my_preset");
+      cloudinaryForm.append("folder", "blog_images");
+
+      const cloudinaryResponse = await fetch("https://api.cloudinary.com/v1_1/dfsw4wv22/image/upload", {
+          method: "POST",
+          body: cloudinaryForm
+      });
+
+      const cloudinaryData = await cloudinaryResponse.json();
+      if (!cloudinaryData.secure_url) {
+          throw new Error("Cloudinary upload failed.");
+      }
+
+      const imageUrl = cloudinaryData.secure_url;
+      console.log("✅ Image uploaded:", imageUrl);
+
+      // 🔹 Now send all data (including image URL) to Backend
+      formData.set("header_image", imageUrl);
+      formData.delete("image");
+
+      console.log([...formData.entries()]);
+
+      const response = await fetch("/submit-blog", {
+          method: "POST",
+          body: formData,
+          headers: { "Accept": "application/json" }
+      });
+
+      const result = await response.json();
+      if (response.ok) {
+          alert("🎉 Article publié avec succès !");
+          document.getElementById("blogForm").reset();
+      } else {
+          throw new Error(result.message || "Une erreur est survenue.");
+      }
+  } catch (error) {
+      console.error("❌ Error:", error);
+      alert("❌ Échec de l’envoi. Veuillez réessayer.");
+  }
+});
+
+
 // POST FORM 
 
 document.querySelector("form").addEventListener("submit", async (e) => {
@@ -79,3 +146,7 @@ document.querySelector("form").addEventListener("submit", async (e) => {
       }, 5000);
     }
 });
+
+
+
+

@@ -1,0 +1,153 @@
+{% extends "base.html" %}
+{% block content %}
+
+
+<div class="container">
+    <main>
+      <div class="py-5 text-center">
+        <!-- Company Logo -->
+        <img class="d-block mx-auto mb-4" src="./static/images/in-deep-ai-logo.png" alt="Company Logo" width="100" height="100">
+        <h2>📝 Publier un article de blog</h2>
+        <p class="lead">Remplissez le formulaire ci-dessous pour soumettre un nouvel article de blog.</p>
+      </div>
+  
+      <div class="row g-5">
+        <div class="col-md-8 mx-auto">
+          <h4 class="mb-3">Informations sur l'article</h4>
+
+
+          <form id="blogForm" class="needs-validation" novalidate enctype="multipart/form-data">
+  
+            <!-- Header Image -->
+            <div class="mb-3">
+              <label for="image" class="form-label">📸 Image en tête d’article</label>
+              <input type="file" class="form-control" id="image" name="image" accept="image/*" required>
+              <div class="invalid-feedback">
+                Veuillez ajouter une image pour l'article.
+              </div>
+            </div>
+          
+            <!-- Title -->
+            <div class="mb-3">
+              <label for="title" class="form-label">📝 Titre accrocheur</label>
+              <input type="text" class="form-control" id="title" name="title" placeholder="Ex: 💡 Comment l’IA révolutionne le marketing digital" required>
+              <div class="invalid-feedback">
+                Un titre est requis.
+              </div>
+            </div>
+          
+            <!-- Metadata -->
+            <div class="row g-3">
+              <div class="col-sm-6">
+                <label for="author" class="form-label">✍️ Auteur</label>
+                <input type="text" class="form-control" id="author" name="author" placeholder="Nom de l’auteur" required>
+                <div class="invalid-feedback">
+                  Veuillez renseigner un auteur.
+                </div>
+              </div>
+          
+              <div class="col-12">
+                <label for="about_author" class="form-label">🧑‍💻 À propos de l’auteur</label>
+                <textarea class="form-control" id="about_author" name="about_author" rows="2" placeholder="Ex: Samuel Abena, entrepreneur tech passionné par l’IA 🤖 et l’automatisation marketing 🚀." required></textarea>
+                <div class="invalid-feedback">
+                  Veuillez ajouter une brève description de l’auteur.
+                </div>
+              </div>
+          
+              <div class="col-sm-6">
+                <label for="date" class="form-label">📅 Date de publication</label>
+                <input type="date" class="form-control" id="date" name="publication_date" required>
+                <div class="invalid-feedback">
+                  Veuillez choisir une date.
+                </div>
+              </div>
+          
+              <div class="col-12">
+                <label for="reading_time" class="form-label">⏳ Temps de lecture (minutes)</label>
+                <input type="number" class="form-control" id="reading_time" name="reading_time" placeholder="Ex: 5" required>
+                <div class="invalid-feedback">
+                  Veuillez indiquer un temps de lecture estimé.
+                </div>
+              </div>
+            </div>
+          
+            <hr class="my-4">
+          
+            <!-- Introduction -->
+            <div class="mb-3">
+              <label for="introduction" class="form-label">📖 Introduction</label>
+              <textarea class="form-control" id="introduction" name="introduction" rows="4" placeholder="Résumé de l’article..." required></textarea>
+              <div class="invalid-feedback">
+                L'introduction est requise.
+              </div>
+            </div>
+          
+            <!-- Article Content -->
+            <h4 class="mb-3">💡 Contenu de l'article</h4>
+          
+            <div class="mb-3">
+              <label for="section_1_title" class="form-label">🚀 Titre de la première section</label>
+              <input type="text" class="form-control" id="section_1_title" name="section_1_title" placeholder="Ex: L’impact de l’IA sur le marketing" required>
+            </div>
+          
+            <div class="mb-3">
+              <label for="section_1_content" class="form-label">📝 Contenu de la première section</label>
+              <textarea class="form-control" id="section_1_content" name="section_1_content" rows="4" placeholder="Détails de la section..." required></textarea>
+            </div>
+          
+            <div class="mb-3">
+              <label for="quote" class="form-label">💬 Citation (optionnelle)</label>
+              <input type="text" class="form-control" id="quote" name="quote" placeholder="Ex: 'Les outils IA changent le monde'">
+            </div>
+          
+            <div class="mb-3">
+              <label for="section_2_title" class="form-label">📊 Titre de la deuxième section</label>
+              <input type="text" class="form-control" id="section_2_title" name="section_2_title" placeholder="Ex: Les outils IA incontournables" required>
+            </div>
+          
+            <div class="mb-3">
+              <label for="section_2_content" class="form-label">📝 Contenu de la deuxième section</label>
+              <textarea class="form-control" id="section_2_content" name="section_2_content" rows="4" placeholder="Détails de la section..." required></textarea>
+            </div>
+          
+            <div class="mb-3">
+              <label for="tools" class="form-label">🛠️ Liste des outils IA (séparés par une virgule)</label>
+              <input type="text" class="form-control" id="tools" name="tools" placeholder="Ex: Chatbots, Analyse prédictive, Génération de contenu IA">
+            </div>
+          
+            <div class="mb-3">
+              <label for="section_3_title" class="form-label">🔮 Titre de la troisième section</label>
+              <input type="text" class="form-control" id="section_3_title" name="section_3_title" placeholder="Ex: L’avenir de l’IA dans le marketing" required>
+            </div>
+          
+            <div class="mb-3">
+              <label for="section_3_content" class="form-label">📝 Contenu de la troisième section</label>
+              <textarea class="form-control" id="section_3_content" name="section_3_content" rows="4" placeholder="Détails de la section..." required></textarea>
+            </div>
+          
+            <hr class="my-4">
+          
+            <!-- Conclusion & Call to Action -->
+            <div class="mb-3">
+              <label for="conclusion" class="form-label">📢 Conclusion</label>
+              <textarea class="form-control" id="conclusion" name="conclusion" rows="3" placeholder="Résumé de l’article..." required></textarea>
+            </div>
+          
+            <div class="mb-3">
+              <label for="cta" class="form-label">🎯 Call-to-Action</label>
+              <input type="text" class="form-control" id="cta" name="cta" placeholder="Ex: Inscrivez-vous à notre formation IA et Marketing Digital !">
+            </div>
+          
+            <hr class="my-4">
+          
+            <!-- Submit Button -->
+            <button class="w-100 btn btn-deap btn-lg mb-3" type="submit">📤 Publier l’article</button>
+          </form>
+          
+         
+        </div>
+      </div>
+    </main>
+  </div>
+  
+{% endblock %}

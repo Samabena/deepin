@@ -1,16 +1,17 @@
 from fastapi import FastAPI, Request, Depends, HTTPException, status, Form
-from fastapi.responses import HTMLResponse
+from fastapi.responses import HTMLResponse, JSONResponse 
 from fastapi.staticfiles import StaticFiles
 from fastapi.templating import Jinja2Templates
 from sqlalchemy.orm import Session
 from app.db.database import engine, Base, get_db
-from app.models.models import Registration
+from app.models.models import Registration, BlogPost
 from app.schemas.schemas import RegistrationCreate
 from fastapi.middleware.cors import CORSMiddleware
 from pathlib import Path
 from fastapi import BackgroundTasks
 from app.services.user_services import send_registration_email
 from app.services.user_services import send_email  
+from datetime import datetime
 
 
 
@@ -50,6 +51,14 @@ async def home(request: Request):
 @app.get("/contactez-nous", response_class=HTMLResponse)
 async def home(request: Request):
     return templates.TemplateResponse("contact.html", {"request": request})
+
+@app.get("/ai-blog", response_class=HTMLResponse)
+async def home(request: Request):
+    return templates.TemplateResponse("blog.html", {"request": request})
+
+@app.get("/admin", response_class=HTMLResponse)
+async def home(request: Request):
+    return templates.TemplateResponse("admin.html", {"request": request, "show_navbar": False})
 
 
 
@@ -94,3 +103,65 @@ async def send_message(
     message: str = Form(...)
 ):
     return send_email(name, email, subject, message)
+
+
+
+
+
+@app.post("/submit-blog")
+async def submit_blog(
+    header_image: str = Form(...),
+    title: str = Form(...),
+    author: str = Form(...),
+    about_author: str = Form(...),
+    publication_date: str = Form(...),
+    reading_time: int = Form(...),
+    introduction: str = Form(...),
+    section_1_title: str = Form(...),
+    section_1_content: str = Form(...),
+    quote: str = Form(None),
+    section_2_title: str = Form(...),
+    section_2_content: str = Form(...),
+    tools: str = Form(None),
+    section_3_title: str = Form(...),
+    section_3_content: str = Form(...),
+    conclusion: str = Form(...),
+    cta: str = Form(None),
+    db: Session = Depends(get_db)
+):
+    # ✅ Validate & Parse `publication_date`
+    try:
+        pub_date = datetime.strptime(publication_date, "%Y-%m-%d")
+    except ValueError:
+        raise HTTPException(status_code=400, detail="📅 Date de publication invalide. Format attendu: YYYY-MM-DD")
+
+    # ✅ Create new blog post
+    new_post = BlogPost(
+        header_image=header_image,
+        title=title,
+        author=author,
+        about_author=about_author,
+        publication_date=pub_date,
+        reading_time=reading_time,
+        introduction=introduction,
+        section_1_title=section_1_title,
+        section_1_content=section_1_content,
+        quote=quote,
+        section_2_title=section_2_title,
+        section_2_content=section_2_content,
+        tools=tools,
+        section_3_title=section_3_title,
+        section_3_content=section_3_content,
+        conclusion=conclusion,
+        cta=cta
+    )
+
+    db.add(new_post)
+    db.commit()
+    db.refresh(new_post)  
+
+    return JSONResponse({
+        "message": "🎉 Article publié avec succès!",
+        "post_id": new_post.id,  
+        "created_at": new_post.created_at.isoformat() 
+    })
