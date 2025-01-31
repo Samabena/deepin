@@ -5,10 +5,11 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>{% block title %} in-deep-ai {% endblock %}</title>
 
-    <link rel="icon" type="image/ico" href="./static/images/deep.png">
-    <link href="./static/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="icon" type="image/ico" href="{{ url_for('static', path='images/deep.png') }}">
+    <link href="{{ url_for('static', path='css/bootstrap.min.css') }}" rel="stylesheet">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css" rel="stylesheet">
-    <link href="./static/css/style.css" rel="stylesheet">
+    <link href="{{ url_for('static', path='css/style.css') }}" rel="stylesheet">
+    
 
 
 </head>
@@ -19,7 +20,7 @@
         <div class="container-fluid">
             <div class="d-flex align-items-center">
                 <a class="navbar-brand" href="/">
-                    <img src="./static/images/in-deep-ai-logo.png" alt="Logo-deap" style="max-height: 60px;">
+                    <img src="{{ url_for('static', path='images/in-deep-ai-logo.png') }}" alt="Logo-deap" style="max-height: 60px;">
                 </a>
             </div>
             <button class="navbar-toggler ms-auto" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
@@ -147,9 +148,10 @@
 
 
 
-    <script src="./static/js/bootstrap.bundle.min.js"></script>
-    <script type="module"  src="./static/js/frontend.js"></script>
-    <script type="module" src="./static/js/backend.js"></script>
+    <script src="{{ url_for('static', path='js/bootstrap.bundle.min.js') }}"></script>
+    <script type="module" src="{{ url_for('static', path='js/frontend.js') }}"></script>
+    <script type="module" src="{{ url_for('static', path='js/backend.js') }}"></script>
+    
 </body>
 </html> 
 

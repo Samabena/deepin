@@ -1,0 +1,245 @@
+{% extends "base.html" %}
+{% block content %}
+
+<main class="container">
+    <div class="p-4 p-md-5 mb-4 rounded text-body-emphasis bg-deap">
+      <div class="col-lg-6 px-0">
+        <h1 class="display-4 text-white">📢 L'IA & le Marketing Digital en Afrique 🚀</h1>
+        <p class="lead my-3 text-white">Découvrez les tendances, outils et formations pour révolutionner votre business grâce à l'intelligence artificielle.</p>
+        <a href="#formations" class="cta-btn text-white"><strong>Accédez aux Formations 🎓</strong></a>
+      </div>
+    </div>
+  
+    <div class="row mb-2">
+      <div class="col-md-6">
+        <div class="row g-0 border rounded overflow-hidden flex-md-row mb-4 shadow-sm h-md-250 position-relative">
+          <div class="col p-4 d-flex flex-column position-static">
+            <strong class="d-inline-block mb-2 text-primary-emphasis">🔥 Tendances du moment </strong>
+            <h3 class="mb-0">Comment l'IA optimise la publicité digitale</h3>
+            <div class="mb-1 text-body-secondary">Nov 12</div>
+            <p class="card-text mb-auto">Découvrez comment les algorithmes transforment le marketing...</p>
+            <a href="#" class="icon-link gap-1 icon-link-hover stretched-link">
+                Lire l'article →
+              <svg class="bi"><use xlink:href="#chevron-right"></use></svg>
+            </a>
+          </div>
+          <div class="col-auto d-none d-lg-block">
+            <svg class="bd-placeholder-img" width="200" height="250" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Placeholder: Thumbnail" preserveAspectRatio="xMidYMid slice" focusable="false"><title>Placeholder</title><rect width="100%" height="100%" fill="#55595c"></rect><text x="50%" y="50%" fill="#eceeef" dy=".3em">Thumbnail</text></svg>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-6">
+        <div class="row g-0 border rounded overflow-hidden flex-md-row mb-4 shadow-sm h-md-250 position-relative">
+          <div class="col p-4 d-flex flex-column position-static">
+            <strong class="d-inline-block mb-2 text-success-emphasis">🔥 Tutoriel</strong>
+            <h3 class="mb-0">Créer un chatbot intelligent en 10 minutes</h3>
+            <div class="mb-1 text-body-secondary">Nov 11</div>
+            <p class="mb-auto">Un guide pratique pour automatiser vos réponses...</p>
+            <a href="#" class="icon-link gap-1 icon-link-hover stretched-link">
+                Lire l'article →
+              <svg class="bi"><use xlink:href="#chevron-right"></use></svg>
+            </a>
+          </div>
+          <div class="col-auto d-none d-lg-block">
+            <svg class="bd-placeholder-img" width="200" height="250" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Placeholder: Thumbnail" preserveAspectRatio="xMidYMid slice" focusable="false"><title>Placeholder</title><rect width="100%" height="100%" fill="#55595c"></rect><text x="50%" y="50%" fill="#eceeef" dy=".3em">Thumbnail</text></svg>
+          </div>
+        </div>
+      </div>
+    </div>
+  
+    <div class="row g-5">
+      <div class="col-md-8">
+        <h3 class="pb-4 mb-4 fst-italic border-bottom">
+        </h3>
+  
+        <article class="blog-post">
+
+            <div class="container mt-5">
+                <div class="row g-5">
+                  <!-- Section du contenu principal -->
+                  <div class="col-md-12">
+                    <!-- Image en tête de l'article -->
+                    <div class="blog-header">
+                        <img src="{{ post.header_image }}" alt="{{ post.title }}" class="img-fluid rounded shadow">
+                    </div>
+              
+                    <article class="blog-post mt-4">
+                      <!-- Titre de l'article -->
+                      <h1 class="display-4 fw-bold text-dark">{{ post.title }}</h1>
+                      
+                      <!-- Métadonnées -->
+                      <p class="blog-post-meta text-muted">
+                        📅 {{ post.publication_date.strftime('%d %B %Y') }} | ✍ Par <a href="#">{{ post.author }}</a> | ⏳ {{ post.reading_time }} min de lecture
+                      </p>
+              
+                      <!-- Contenu de l'article -->
+                      <p class="lead"> {{ post.introduction }} </p>
+                      
+                      <hr>
+
+                        <!-- Section 1 -->
+                        <h2 class="fw-semibold">🚀 {{ post.section_1_title }}</h2>
+                        <p>{{ post.section_1_content }}</p>
+              
+                        <!-- Quote -->
+                        {% if post.quote %}
+                        <blockquote class="blockquote border-start ps-3 text-muted">
+                            "{{ post.quote }}"
+                        </blockquote>
+                        {% endif %}
+              
+                      
+                      <!-- Section 2 -->
+                        <h3 class="fw-semibold mt-4">📊 {{ post.section_2_title }}</h3>
+                        <p>{{ post.section_2_content }}</p>
+
+                      <!-- AI Tools -->
+                        {% if post.tools %}
+                        <h3 class="fw-semibold mt-4">📊 Outils Utilisés</h3>
+                        <ul>
+                            {% for tool in post.tools.split(',') %}
+                            <li>🔹 {{ tool.strip() }}</li>
+                            {% endfor %}
+                        </ul>
+                        {% endif %}
+              
+                      <!-- Section 3 -->
+                        <h3 class="fw-semibold mt-4">{{ post.section_3_title }}</h3>
+                        <p>{{ post.section_3_content }}</p>
+              
+                      <hr>
+
+                      <!-- Conclusion -->
+                    <h3 class="fw-semibold mt-4">📢 Conclusion</h3>
+                    <p>{{ post.conclusion }}</p>
+
+                    <!-- Call to Action -->
+                    {% if post.cta %}
+                    <p class="fw-bold text-primary">{{ post.cta }}</p>
+                    {% endif %}
+
+
+                    <nav class="blog-pagination my-2">
+                        {% if prev_post %}
+                            <a class="btn btn-outline-primary rounded-pill"
+                               href="{{ url_for('get_blog_post', year=prev_post.publication_date.year, month=prev_post.publication_date.month, post_id=prev_post.id) }}">
+                                ⬅️ Articles précédents
+                            </a>
+                        {% else %}
+                            <button class="btn btn-outline-secondary rounded-pill" disabled>
+                                ⛔ Pas d’article précédent
+                            </button>
+                        {% endif %}
+                    
+                        {% if next_post %}
+                            <a class="btn btn-outline-primary rounded-pill"
+                               href="{{ url_for('get_blog_post', year=next_post.publication_date.year, month=next_post.publication_date.month, post_id=next_post.id) }}">
+                                Articles suivants ➡️
+                            </a>
+                        {% else %}
+                            <button class="btn btn-outline-secondary rounded-pill" disabled>
+                                ⛔ Pas d’article suivant
+                            </button>
+                        {% endif %}
+                    </nav>
+                    
+                    
+                    <hr>
+              
+                      <!-- Partage sur les réseaux sociaux -->
+                    <div class="social-share">
+                        <p class="fw-bold">📢 Partagez cet article :</p>
+
+                        <!-- Facebook Share -->
+                        <a id="facebookShare" class="btn btn-outline-primary btn-sm" target="_blank">
+                            <i class="bi bi-facebook"></i> Facebook
+                        </a>
+
+                        <!-- WhatsApp Share (Replaces Twitter) -->
+                        <a id="whatsappShare" class="btn btn-outline-success btn-sm" target="_blank">
+                            <i class="bi bi-whatsapp"></i> WhatsApp
+                        </a>
+
+                        <!-- LinkedIn Share -->
+                        <a id="linkedinShare" class="btn btn-outline-danger btn-sm" target="_blank">
+                            <i class="bi bi-linkedin"></i> LinkedIn
+                        </a>
+                    </div>
+
+
+                    
+                      <div class="py-4">
+                        <h4 class="fst-italic">📲 Rejoignez-nous</h4>
+                        <ol class="list-unstyled">
+                            <p class="mb-0">Intégrez notre communauté WhatsApp & Telegram !</p>
+                            <a href="##">Rejoindre 🚀</a>
+                        </ol>
+                      </div>
+              
+                    </article>
+              
+                  </div>
+                  
+                </div>
+              </div>
+              
+          
+        </article>
+  
+      </div>
+  
+      <div class="col-md-4">
+        <div class="position-sticky" style="top: 2rem;">
+          <div class="p-4 mb-3 bg-body-tertiary rounded">
+            <h4>🧑‍💻 À propos de l’auteur</h4>
+            <p class="mb-0"> <strong>{{ post.author }}</strong> {{post.about_author}}</p>
+          </div>
+  
+          <div>
+            <h4 class="fst-italic">📣 ESPACE PUB</h4>
+            <ul class="list-unstyled">
+              <li>
+                <a class="d-flex flex-column flex-lg-row gap-3 align-items-start align-items-lg-center py-3 link-body-emphasis text-decoration-none border-top" href="#">
+                  <svg class="bd-placeholder-img" width="100%" height="96" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" preserveAspectRatio="xMidYMid slice" focusable="false"><rect width="100%" height="100%" fill="#777"></rect></svg>
+                  <div class="col-lg-8">
+                    <h6 class="mb-0">🔹 L’avenir de l’IA et de l’automatisation</h6>
+                    <small class="text-body-secondary">January 15, 2024</small>
+                  </div>
+                </a>
+              </li>
+              <li>
+                <a class="d-flex flex-column flex-lg-row gap-3 align-items-start align-items-lg-center py-3 link-body-emphasis text-decoration-none border-top" href="#">
+                  <svg class="bd-placeholder-img" width="100%" height="96" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" preserveAspectRatio="xMidYMid slice" focusable="false"><rect width="100%" height="100%" fill="#777"></rect></svg>
+                  <div class="col-lg-8">
+                    <h6 class="mb-0">🔹 5 outils IA pour booster votre business</h6>
+                    <small class="text-body-secondary">January 14, 2024</small>
+                  </div>
+                </a>
+              </li>
+              <li>
+                <a class="d-flex flex-column flex-lg-row gap-3 align-items-start align-items-lg-center py-3 link-body-emphasis text-decoration-none border-top" href="#">
+                  <svg class="bd-placeholder-img" width="100%" height="96" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" preserveAspectRatio="xMidYMid slice" focusable="false"><rect width="100%" height="100%" fill="#777"></rect></svg>
+                  <div class="col-lg-8">
+                    <h6 class="mb-0">🔹 Comment l’IA révolutionne l’e-commerce </h6>
+                    <small class="text-body-secondary">January 13, 2024</small>
+                  </div>
+                </a>
+              </li>
+            </ul>
+          </div>
+  
+        </div>
+      </div>
+    </div>
+  
+  </main>
+
+
+
+
+
+
+
+
+
+{% endblock %}

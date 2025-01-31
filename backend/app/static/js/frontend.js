@@ -58,3 +58,35 @@
         });
     });
 });
+
+
+
+window.fetchPosts = function (button) {
+  let page = button.getAttribute("data-page"); // Get the page number
+  fetch(`/blog?page=${page}`)
+      .then(response => response.text())
+      .then(html => {
+          const parser = new DOMParser();
+          const doc = parser.parseFromString(html, "text/html");
+          document.querySelector(".container").innerHTML = doc.querySelector(".container").innerHTML;
+      })
+      .catch(error => console.error("Error fetching posts:", error));
+};
+
+
+
+
+document.addEventListener("DOMContentLoaded", function() {
+  // Get the current page URL
+  const postUrl = encodeURIComponent(window.location.href);
+  const postTitle = encodeURIComponent(document.title); // Use page title
+
+  // Facebook Share Link
+  document.getElementById("facebookShare").href = `https://www.facebook.com/sharer/sharer.php?u=${postUrl}`;
+
+  // WhatsApp Share Link
+  document.getElementById("whatsappShare").href = `https://api.whatsapp.com/send?text=${postTitle}%20${postUrl}`;
+
+  // LinkedIn Share Link
+  document.getElementById("linkedinShare").href = `https://www.linkedin.com/sharing/share-offsite/?url=${postUrl}`;
+});

@@ -49,89 +49,55 @@
   
     <div class="row g-5">
       <div class="col-md-8">
-        <h3 class="pb-4 mb-4 fst-italic border-bottom">
-        </h3>
-  
-        <article class="blog-post">
 
-            <div class="container mt-5">
-                <div class="row g-5">
-                  <!-- Section du contenu principal -->
-                  <div class="col-md-12">
-                    <!-- Image en tête de l'article -->
-                    <div class="blog-header">
-                      <img src="image-en-tete.jpg" alt="Image en tête d'article" class="img-fluid rounded shadow">
+            <div class="row row-cols-1 row-cols-md-2 row-cols-lg-2 g-4">
+                {% for post in posts %}
+                <div class="col">
+                    <div class="card h-100 shadow-sm">
+                        <img src="{{ post.header_image }}" class="card-img-top" alt="{{ post.title }}">
+                        <div class="card-body">
+                            <h5 class="card-title mb-1">
+                                <a href="{{ url_for('get_blog_post', year=post.publication_date.year, month=post.publication_date.month, post_id=post.id) }}" 
+                                class="text-decoration-none text-dark">
+                                    {{ post.title }}
+                                </a>
+                            </h5>
+                            <p class="text-muted small mb-1">
+                                📅 {{ post.publication_date.strftime('%d %B %Y') }} | ✍ {{ post.author }} | ⏳ {{ post.reading_time }} min
+                            </p>
+                            <p class="card-text mb-1">{{ post.introduction[:100] }}...</p>
+                            <a href="{{ url_for('get_blog_post', year=post.publication_date.year, month=post.publication_date.month, post_id=post.id) }}" 
+                            class="btn btn-primary btn-sm">
+                                📖 Lire la suite
+                            </a>
+                        </div>
                     </div>
-              
-                    <article class="blog-post mt-4">
-                      <!-- Titre de l'article -->
-                      <h1 class="display-4 fw-bold text-dark">💡 Comment l’IA révolutionne le marketing digital</h1>
-                      
-                      <!-- Métadonnées -->
-                      <p class="blog-post-meta text-muted">
-                        📅 1 Janvier 2024 | ✍ Par <a href="#">Samuel</a> | ⏳ 5 min de lecture
-                      </p>
-              
-                      <!-- Contenu de l'article -->
-                      <p class="lead">
-                        L’intelligence artificielle (IA) transforme radicalement la manière dont les entreprises interagissent avec leurs clients. 
-                        De l’analyse prédictive à la création de contenu automatisée, le marketing piloté par l’IA devient incontournable.
-                      </p>
-              
-                      <hr>
-              
-                      <h2 class="fw-semibold">🚀 L’impact de l’IA sur le marketing</h2>
-                      <p>
-                        Grâce à l’IA, les entreprises peuvent analyser les données clients, personnaliser leurs campagnes et automatiser les interactions
-                        avec une précision jamais vue auparavant. Les entreprises qui adoptent ces technologies constatent une augmentation
-                        significative de leur engagement et de leurs taux de conversion.
-                      </p>
-              
-                      <blockquote class="blockquote border-start ps-3 text-muted">
-                        "Les outils d’IA transforment le paysage du marketing digital en offrant une compréhension approfondie du comportement des consommateurs."
-                      </blockquote>
-              
-                      <h3 class="fw-semibold mt-4">📊 Les outils IA incontournables</h3>
-                      <ul>
-                        <li>🤖 <strong>Chatbots</strong> – Automatiser le service client.</li>
-                        <li>📈 <strong>Analyse prédictive</strong> – Anticiper le comportement des consommateurs.</li>
-                        <li>✍️ <strong>Génération de contenu IA</strong> – Rédiger des textes automatiquement.</li>
-                      </ul>
-              
-                      <h3 class="fw-semibold mt-4">🔮 L’avenir de l’IA dans le marketing</h3>
-                      <p>
-                        Avec l’évolution du deep learning, l’IA continuera d’affiner les stratégies marketing et d’améliorer l’expérience utilisateur.
-                        Se tenir informé des tendances de l’IA est un atout majeur pour les entreprises modernes.
-                      </p>
-              
-                      <hr>
-              
-                      <!-- Partage sur les réseaux sociaux -->
-                      <div class="social-share">
-                        <p class="fw-bold">📢 Partagez cet article :</p>
-                        <a href="#" class="btn btn-outline-primary btn-sm">Facebook</a>
-                        <a href="#" class="btn btn-outline-info btn-sm">Twitter</a>
-                        <a href="#" class="btn btn-outline-danger btn-sm">LinkedIn</a>
-                      </div>
-              
-                    </article>
-              
-                    <!-- Navigation des articles -->
-                    <nav class="blog-pagination mt-5">
-                      <a class="btn btn-outline-primary rounded-pill" href="#">Articles précédents</a>
-                      <a class="btn btn-outline-secondary rounded-pill disabled" aria-disabled="true">Articles suivants</a>
-                    </nav>
-              
-                  </div>
-                  
                 </div>
-              </div>
+                {% endfor %}
+            </div>
+            
+
+
+        <!-- Navigation des articles -->
+        <nav class="blog-pagination mt-4 d-flex justify-content-center">
+            {% if has_prev %}
+                <button class="btn btn-outline-primary me-2" data-page="{{ page - 1 }}" onclick="fetchPosts(this)">⬅️ Précédents</button>
+            {% else %}
+                <button class="btn btn-outline-secondary me-2" disabled>⛔ Pas d’article précédent</button>
+            {% endif %}
+        
+            {% if has_next %}
+                <button class="btn btn-outline-primary" data-page="{{ page + 1 }}" onclick="fetchPosts(this)">Articles suivants ➡️</button>
+            {% else %}
+                <button class="btn btn-outline-secondary" disabled>⛔ Pas d’article suivant</button>
+            {% endif %}
+        </nav>
+        
               
-          
-        </article>
-  
       </div>
-  
+
+
+                  
       <div class="col-md-4">
         <div class="position-sticky" style="top: 2rem;">
           <div class="p-4 mb-3 bg-body-tertiary rounded">

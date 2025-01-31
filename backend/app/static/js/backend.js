@@ -3,14 +3,11 @@ import {showPopupAlert, showAlert } from './conmon.js';
 
 
 // BLOG POST SETTINGS 
-
-
-document.getElementById("blogForm").addEventListener("submit", async function(event) {
+document.getElementById("blogForm")?.addEventListener("submit", async function(event) {
   
   event.preventDefault();  // ✅ Prevents default GET request
   event.stopPropagation(); // ✅ Prevents propagation issues
 
-  alert("clicked")
 
   console.log("Submitting form..."); // ✅ Debugging log
 
@@ -40,13 +37,10 @@ document.getElementById("blogForm").addEventListener("submit", async function(ev
       }
 
       const imageUrl = cloudinaryData.secure_url;
-      console.log("✅ Image uploaded:", imageUrl);
 
       // 🔹 Now send all data (including image URL) to Backend
       formData.set("header_image", imageUrl);
       formData.delete("image");
-
-      console.log([...formData.entries()]);
 
       const response = await fetch("/submit-blog", {
           method: "POST",
@@ -54,13 +48,13 @@ document.getElementById("blogForm").addEventListener("submit", async function(ev
           headers: { "Accept": "application/json" }
       });
 
-      const result = await response.json();
-      if (response.ok) {
-          alert("🎉 Article publié avec succès !");
-          document.getElementById("blogForm").reset();
-      } else {
-          throw new Error(result.message || "Une erreur est survenue.");
-      }
+      if (response.redirected) {
+        window.location.href = response.url;  // ✅ Redirect to the new blog post
+    } else {
+        const result = await response.json();
+        showPopupAlert(result.message || "Une erreur est survenue.");
+    }
+      
   } catch (error) {
       console.error("❌ Error:", error);
       alert("❌ Échec de l’envoi. Veuillez réessayer.");
@@ -68,10 +62,10 @@ document.getElementById("blogForm").addEventListener("submit", async function(ev
 });
 
 
-// POST FORM 
-
-document.querySelector("form").addEventListener("submit", async (e) => {
+// REGISTRATION FORM 
+document.querySelector("form")?.addEventListener("submit", async (e) => {
     e.preventDefault();
+    e.stopPropagation();
     const formData = {
       full_name: document.getElementById("fullName").value,
       whatsapp_number: document.getElementById("whatsappNumber").value,
@@ -101,10 +95,10 @@ document.querySelector("form").addEventListener("submit", async (e) => {
   });
   
 
-  // SENDING MESSAGE FROM CONTACT US 
-
-  document.getElementById("contactForm").addEventListener("submit", async function (event) {
+// SENDING MESSAGE FROM CONTACT US 
+document.getElementById("contactForm")?.addEventListener("submit", async function (event) {
     event.preventDefault(); 
+    event.stopPropagation();
 
     // Collect form data
     const formData = new FormData();
