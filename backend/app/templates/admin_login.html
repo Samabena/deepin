@@ -1,0 +1,57 @@
+{% extends "base.html" %}
+
+{% block extra_css %}
+{{ super() }}
+<link href="{{ url_for('static', path='css/login.css') }}" rel="stylesheet">
+{% endblock %}
+
+
+{% block content %}
+
+<div class="container-fluid full-screen">
+  <main class="form-container">
+
+    <form id="loginForm" method="post" action="/login/">
+
+      <img class="logo" src="{{ url_for('static', path='images/in-deep-ai-logo.png') }}" alt="Logo-in-deep-ai" width="120" height="120">
+      <div id="alertContainer">
+          
+      </div> 
+
+      <div class="text-center">
+          <div id="spinner" class="spinner-grow text-primary d-none" role="status">
+          </div>
+      </div>
+
+      <h1 class="h3 mb-3 fw-normal">{{login_message}}</h1>
+  
+      <div class="form-floating mb-3">
+          <input type="email" class="form-control" id="floatingInput" name="email" placeholder="name@example.com" required>
+          <label for="floatingInput">Email address</label>
+      </div>
+      <div class="form-floating mb-3">
+          <input type="password" class="form-control" id="floatingPassword" name="password" placeholder="Password" required>
+          <label for="floatingPassword">Password</label>
+      </div>
+  
+  
+      <button class="btn btn-deap w-100 py-2 btn-login" type="submit" id="loginButton">Log In</button>
+  
+      <div class="text-center mt-3">
+          <a href="/admin-registration">Don't have an account? Register here</a>
+      </div>
+
+      <div class="text-center mt-3">
+          <a href="/forgot-password/" class="text-body-secondary">Forgot your password?</a>
+      </div>
+
+  </form>
+  
+  </main>
+</div>
+
+{% endblock %}
+
+{% block extra_js %}
+<script type="module" src="{{ url_for('static', path='js/login.js') }}"></script>
+{% endblock %}

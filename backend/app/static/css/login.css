@@ -1,0 +1,48 @@
+
+/* To Make container smaller */
+.form-container {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center; 
+    max-width: 360px;
+    width: 100%;
+}
+
+/* To center login form at the middle of the screen */
+.full-screen {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+
+@media (max-width: 576px) {
+
+    .form-container {
+        max-width: 300px;
+        padding: 0 1rem;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        text-align: center; 
+        width: 100%;
+    }
+
+    .btn-login {
+        padding: 0.5rem 0.75rem;
+        font-size: 0.875rem;
+    }
+
+    .logo {
+        display: block;
+        width: 100px !important;
+        height: 100px !important;
+        margin: 0 auto;
+    }
+
+}

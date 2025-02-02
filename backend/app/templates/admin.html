@@ -2,11 +2,29 @@
 {% block content %}
 
 
-<div class="container">
+  <!-- Fixed-top Navbar -->
+  <nav class="navbar navbar-dark bg-dark fixed-top">
+    <div class="container d-flex justify-content-between">
+      <!-- Left side: Dashboard with icon -->
+      <a class="navbar-brand d-flex align-items-center" href="#">
+        <i class="bi bi-speedometer2 me-2"></i> Dashboard
+      </a>
+      <!-- Right side: Logout link with icon -->
+      <a  id="logoutButton" class="nav-link text-white d-flex align-items-center" href="/logout">
+        Logout <i class="bi bi-box-arrow-right ms-2"></i>
+      </a>
+    </div>
+  </nav>
+
+
+
+
+<div class="container py-5">
     <main>
       <div class="py-5 text-center">
         <!-- Company Logo -->
-        <img class="d-block mx-auto mb-4" src="./static/images/in-deep-ai-logo.png" alt="Company Logo" width="100" height="100">
+        <img class="d-block mx-auto mb-4" src="{{ url_for('static', path='images/in-deep-ai-logo.png') }}" alt="Logo-in-deep-ai" width="100" height="100">
+
         <h2>📝 Publier un article de blog</h2>
         <p class="lead">Remplissez le formulaire ci-dessous pour soumettre un nouvel article de blog.</p>
       </div>
@@ -150,4 +168,8 @@
     </main>
   </div>
   
+{% endblock %}
+
+{% block extra_js %}
+<script type="module" src="{{ url_for('static', path='js/login.js') }}"></script>
 {% endblock %}

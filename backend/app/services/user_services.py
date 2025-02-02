@@ -4,11 +4,22 @@ from sendgrid import SendGridAPIClient
 from sendgrid.helpers.mail import Mail, Email
 from fastapi_mail import FastMail, MessageSchema, ConnectionConfig
 from fastapi.responses import JSONResponse
+from fastapi import HTTPException
+from app.schemas.schemas import UserCreate
+from sqlalchemy.orm import Session
+from app.crud.crud import create_user ,authenticate_user, create_session, clear_session # get_user_by_id,
+from app.models.models import User
 
 
 SENDGRID_API_KEY = os.getenv("SENDGRID_API_KEY")  
 MAIL_FROM = os.getenv("MAIL_FROM")
 MAIL_FROM_NAME = os.getenv("MAIL_FROM_NAME") 
+
+
+# Load the template file
+def load_template(template_file_path: str):
+    with open(template_file_path, 'r') as file:
+        return Template(file.read())
 
 
 # SMTP Configuration (Fallback)
@@ -43,8 +54,10 @@ async def send_registration_email(full_name: str, email: str, preferred_course: 
             preferred_course=preferred_course
         )
 
+        subject = "Bienvenue à Nos Formations - Confirmation d'inscription"
+
         # Try sending via SendGrid first
-        sendgrid_success = await send_email_via_sendgrid(email, rendered_template)
+        sendgrid_success = await send_email_via_sendgrid(email, subject, rendered_template)
 
         # If SendGrid fails, fallback to SMTP
         if not sendgrid_success:
@@ -57,13 +70,14 @@ async def send_registration_email(full_name: str, email: str, preferred_course: 
 
 
 # EXTERNAL PROVIDER : Sendgrid
-async def send_email_via_sendgrid(email: str, html_content: str):
+async def send_email_via_sendgrid(email: str, subject: str, html_content: str):
+
     """Send email using SendGrid"""
     try:
         message = Mail(
             from_email=(MAIL_FROM, MAIL_FROM_NAME),
             to_emails=email,
-            subject="Bienvenue à Nos Formations - Confirmation d'inscription",
+            subject=subject,  
             html_content=html_content
         )
 
@@ -140,3 +154,68 @@ def send_email(name: str, email: str, subject: str, message: str):
 
     except Exception as e:
         return JSONResponse(content={"error": str(e)}, status_code=500)
+
+
+
+
+# REGISTRATION AND EMAIL VERIFICATION USING TOKEN GENERATION
+
+BASE_URL = os.getenv("BASE_URL")
+
+async def register_user(db: Session, user: UserCreate):
+    
+    try:
+        # Register user in the database
+        new_user = create_user(db=db, user=user)
+
+        # Generate verification link using user ID and token
+        verification_link = f"{BASE_URL}/verify/{new_user.id}?token={new_user.verification_token}"
+        
+        # Load the email template
+        email_template = load_template("app/templates/email_verification.html")
+
+        # Render the template with values
+        rendered_template = email_template.render(fullname=new_user.fullname, verification_link=verification_link)
+
+        subject = "Bienvenue sur In Deep AI  - Verification d'Email"
+        # Sending via Sendgrid
+        sendgrid_success = await send_email_via_sendgrid(new_user.email, subject, rendered_template)
+        
+        # If SendGrid fails, fallback to SMTP
+        if not sendgrid_success:
+            await send_email_via_smtp(new_user.email, subject, rendered_template)
+
+    except Exception as e:
+        print(f"❌ Erreur générale d'envoi d'email: {e}")
+    finally:
+        db.close()
+
+
+
+# User Verification Function
+def verify_user_account(db: Session,user_id: int, token: str):
+    user = db.query(User).filter(User.id == user_id, User.verification_token == token).first()
+    if not user:
+        raise HTTPException(status_code=404, detail="User not found or token invalid")
+    
+    user.is_verified = True
+    user.verification_token = None  # Clear the token after verification
+    db.commit()
+    db.refresh(user)
+    return {"message": "User verified successfully"}
+
+
+# User Login Function
+def login_user(db: Session, email: str, password: str):
+    user = authenticate_user(db, email, password)
+    if not user:
+        raise HTTPException(status_code=400, detail="Invalid credentials")
+    if not user.is_verified:
+        raise HTTPException(status_code=400, detail="Email not verified")
+    user = create_session(db, user.id)
+    formatted_name = user.fullname.lower().replace(" ", "-")
+    return user, f"/admin/{formatted_name}"
+
+def logout_user(db: Session, user_id: int):
+    clear_session(db, user_id)
+

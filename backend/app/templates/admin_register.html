@@ -1,0 +1,76 @@
+{% extends "base.html" %}
+
+{% block extra_css %}
+{{ super() }}
+<link href="{{ url_for('static', path='css/login.css') }}" rel="stylesheet">
+{% endblock %}
+
+{% block content %}
+
+<div class="container full-screen">
+    
+    <main class="form-container">
+        <form id="registrationForm" method="post" action="/registration/" enctype="multipart/form-data" novalidate class="needs-validation">
+            <!-- Centered Logo -->
+            <img class="logo" src="{{ url_for('static', path='images/in-deep-ai-logo.png') }}" alt="Logo-in-deep-ai" width="120" height="120">
+            <div id="alertContainer">
+        
+            </div> 
+
+            <div class="text-center">
+                <div id ="spinner" class="spinner-grow text-primary d-none" role="status">
+                </div>
+            </div>
+            
+            <!-- Form Heading -->
+            <h1 class="h3 mb-3 fw-normal">Create an Account</h1>
+
+            <!-- Username Field -->
+            <div class="form-floating mb-3">
+                <input type="text" class="form-control" id="floatingUsername" name="username" placeholder="Username" required>
+                <label for="floatingUsername">Username</label>
+                <div class="invalid-feedback">Please provide a username.</div>
+            </div>
+
+            <!-- Fullname Field -->
+            <div class="form-floating mb-3">
+                <input type="text" class="form-control" id="floatingFullname" name="fullname" placeholder="Full Name" required>
+                <label for="floatingFullname">Full Name</label>
+                <div class="invalid-feedback">Please provide your full name.</div>
+            </div>
+
+            <!-- Email Field -->
+            <div class="form-floating mb-3">
+                <input type="email" class="form-control" id="floatingInput" name="email" placeholder="name@example.com" required>
+                <label for="floatingInput">Email address</label>
+                <div class="invalid-feedback">Please provide a valid email address.</div>
+            </div>
+
+            <!-- Password Field -->
+            <div class="form-floating mb-3">
+                <input type="password" class="form-control" id="floatingPassword" name="password" placeholder="Password" required>
+                <label for="floatingPassword">Password</label>
+                <div class="invalid-feedback">Please provide a password.</div>
+            </div>
+
+            <!-- Confirm Password Field -->
+            <div class="form-floating mb-3">
+                <input type="password" class="form-control" id="floatingConfirmPassword" name="confirm_password" placeholder="Confirm Password" required>
+                <label for="floatingConfirmPassword">Confirm Password</label>
+                <div class="invalid-feedback">Passwords do not match.</div>
+            </div>
+
+            <!-- Create Account Button -->
+            <button id="send" class="btn btn-deap w-100 py-2" type="submit">Create Account</button>
+
+            <!-- Link to Sign In -->
+            <p class="mt-3 mb-3 text-body-secondary">Already have an account? <a href="/admin-login">login here</a></p>
+        </form>
+    </main>
+</div>
+
+{% endblock %}
+
+{% block extra_js %}
+<script type="module" src="{{ url_for('static', path='js/admin_register.js') }}"></script>
+{% endblock %}

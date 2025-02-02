@@ -1,18 +1,22 @@
-from fastapi import FastAPI, Request, Depends, HTTPException, status, Form, Query
+from fastapi import FastAPI, Request, Depends, HTTPException, status, Form, Query, Response
 from fastapi.responses import HTMLResponse, JSONResponse, RedirectResponse
 from fastapi.staticfiles import StaticFiles
 from fastapi.templating import Jinja2Templates
 from sqlalchemy.orm import Session
 from app.db.database import engine, Base, get_db
-from app.models.models import Registration, BlogPost
-from app.schemas.schemas import RegistrationCreate
+from app.models.models import Registration, BlogPost, User
+from app.schemas.schemas import RegistrationCreate, UserCreate
 from fastapi.middleware.cors import CORSMiddleware
 from pathlib import Path
 from fastapi import BackgroundTasks
-from app.services.user_services import send_registration_email
-from app.services.user_services import send_email  
-from datetime import datetime
+from app.services.user_services import send_registration_email, verify_user_account, login_user, logout_user
+from app.services.user_services import send_email , register_user 
+from datetime import datetime, timedelta
 from sqlalchemy import extract
+from typing import Optional
+from dotenv import load_dotenv
+from jose import jwt 
+import os
 
 
 
@@ -53,11 +57,14 @@ async def home(request: Request):
     return templates.TemplateResponse("contact.html", {"request": request})
 
 
-@app.get("/admin", response_class=HTMLResponse)
+@app.get("/admin-login", response_class=HTMLResponse)
 async def home(request: Request):
-    return templates.TemplateResponse("admin.html", {"request": request, "show_navbar": False})
+    return templates.TemplateResponse("admin_login.html", {"request": request, "show_navbar": False})
 
 
+@app.get("/admin-registration", response_class=HTMLResponse)
+async def home(request: Request):
+    return templates.TemplateResponse("admin_register.html", {"request": request, "show_navbar": False})
 
 # REGISTRATION ROUTE
 
@@ -265,3 +272,151 @@ async def get_blogs(request: Request, db: Session = Depends(get_db), page: int =
         "has_next": has_next,
         "has_prev": has_prev
     })
+
+
+
+# User Registration Endpoint
+@app.post("/registration/")
+
+async def register_user_endpoint(
+    username: str = Form(...),
+    fullname: str = Form(...),
+    email: str = Form(...),
+    password: str = Form(...),
+    db: Session = Depends(get_db)
+):
+    """
+    This endpoint handles user registration.
+    It takes user data and calls the register_user service.
+    """
+    try:
+
+        # Convert form fields to UserCreate schema
+        user = UserCreate(
+            username=username,
+            fullname=fullname,
+            email=email,
+            password=password
+        )
+        
+        response = await register_user(db=db, user=user)
+        
+        print("User registered successfully, response:", response)
+        return JSONResponse(content=response)
+    
+    except HTTPException as e:
+        print("HTTP Exception:", str(e))
+        raise e
+
+
+
+# Verification endpoint (GET)
+
+@app.get("/verify/{user_id}")
+def verify_user_endpoint(user_id: int, request: Request, token: str = Query(None), db: Session = Depends(get_db)):
+    """
+    This endpoint verifies a user's email.
+    It takes user ID and a token to verify the user.
+    """
+    try:
+        if not token:
+            # If the token is missing, render verification failed page with a generic message
+            return templates.TemplateResponse("verification_failed.html", {"request": request, "message": "Unauthorized access", "no_navbar": True})
+        
+        # Attempt to verify the user with the provided token
+        is_verified = verify_user_account(db=db, user_id=user_id, token=token)
+        
+        if is_verified:
+            # Render verification success page
+            return templates.TemplateResponse("verification_success.html", {"request": request, "no_navbar": True})
+        else:
+            # Render verification failed page with generic message
+            return templates.TemplateResponse("verification_failed.html", {"request": request, "message": "Verification failed. Please try again.", "show_navbar": False})
+    
+    except HTTPException as e:
+        # Log detailed error and render verification failed page for HTTP exceptions
+        print("HTTP Exception:", str(e))
+        return templates.TemplateResponse("verification_failed.html", {"request": request, "message": "Unauthorized access", "show_navbar": False})
+    
+    except Exception as e:
+        # Log unexpected errors and render verification failed page
+        print("Unexpected Error:", str(e))
+        return templates.TemplateResponse("verification_failed.html", {"request": request, "message": "Internal server error. Please try again later.", "show_navbar": False})
+    
+
+
+# SECURE LOGIN 
+
+load_dotenv()
+
+SECRET_KEY = os.getenv("SECRET_KEY")
+ALGORITHM = "HS256"
+
+def create_access_token(data: dict):
+    to_encode = data.copy()
+    expire = datetime.now() + timedelta(hours=1)  # Token expiration
+    to_encode.update({"exp": expire})
+    encoded_jwt = jwt.encode(to_encode, SECRET_KEY, algorithm=ALGORITHM)
+    return encoded_jwt
+
+
+@app.post("/login/")
+def login(
+    response: Response,
+    db: Session = Depends(get_db),
+    email: str = Form(...),
+    password: str = Form(...),
+    redirect: Optional[str] = None
+):
+    try:
+        user, redirect_url = login_user(db, email, password)
+
+        # Create JWT token
+        access_token = create_access_token(data={"sub": str(user.id)})
+
+        # Set the token in cookies (optional)
+        response.set_cookie(key="session_token", value=user.session_token, httponly=True)
+        response.set_cookie(key="access_token", value=access_token, httponly=True)
+
+        if redirect:
+            redirect_url = redirect
+
+        return {"message": "Login successful", "redirect_url": redirect_url, "access_token": access_token}
+    except HTTPException as e:
+        raise e
+    
+
+
+@app.get("/admin/{fullname}")
+def home(request: Request, fullname: str, db: Session = Depends(get_db)):
+    session_token = request.cookies.get("session_token")
+    if not session_token:
+        # Redirect to login with a custom message
+        return RedirectResponse(url=f"/login?message=not_logged_in")
+
+    user = db.query(User).filter(User.session_token == session_token, User.session_expiry > datetime.now()).first()
+    if not user:
+        # Redirect to login with a custom message
+        return RedirectResponse(url=f"/login?message=session_expired")
+    
+    # Set default profile picture if none exists
+    #profile_picture_url = user.profile_picture or "https://www.gravatar.com/avatar/00000000000000000000000000000000?d=mp&f=y"
+
+    # Render the home.html template with user's fullname
+    return templates.TemplateResponse("admin.html", {"request": request, "fullname": user.fullname, "user_id": user.id, "show_navbar": False})
+
+
+@app.post("/logout/")
+def logout(request: Request, response: Response, db: Session = Depends(get_db)):
+    session_token = request.cookies.get("session_token")
+    if not session_token:
+        raise HTTPException(status_code=401, detail="Not authenticated")
+
+    user = db.query(User).filter(User.session_token == session_token).first()
+    if not user:
+        raise HTTPException(status_code=401, detail="Invalid session")
+
+    logout_user(db, user.id)
+    # Clear the session cookie
+    response.delete_cookie(key="session_token")
+    return {"message": "Logout successful"}

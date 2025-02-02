@@ -1,6 +1,8 @@
 from sqlalchemy import Column, Integer, String, Boolean, TIMESTAMP, UniqueConstraint, Column, Integer, String, Text, DateTime
 from app.db.database import Base
-from datetime import datetime
+from datetime import datetime, timedelta
+from sqlalchemy.orm import relationship
+
 
 
 class Registration(Base):
@@ -44,4 +46,30 @@ class BlogPost(Base):
     cta = Column(Text, nullable=True)
     created_at = Column(DateTime, default=datetime.utcnow) 
 
-    
+
+# Users Table definition in database 
+
+class User(Base):
+    __tablename__ = "users"
+
+    id = Column(Integer, primary_key=True, index=True)
+    username = Column(String, unique=True, index=True)
+    fullname = Column(String, index=True)  # Added fullname field
+    email = Column(String, unique=True, index=True)
+    hashed_password = Column(String)
+    is_active = Column(Boolean, default=True)
+    is_verified = Column(Boolean, default=False)
+    verification_token = Column(String, unique=True, index=True)
+    session_token = Column(String, unique=True, nullable=True)
+    session_expiry = Column(DateTime, nullable=True)
+    reset_token = Column(String, unique=True, nullable=True)
+    profile_picture = Column(String, nullable=True) 
+ 
+
+    def set_session(self, token: str):
+        self.session_token = token
+        self.session_expiry = datetime.now() + timedelta(hours=1)  # Set session expiry to 1 hour from now
+
+    def clear_session(self):
+        self.session_token = None
+        self.session_expiry = None

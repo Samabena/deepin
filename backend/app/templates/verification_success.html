@@ -1,0 +1,24 @@
+{% extends "base.html" %}
+
+{% block title %} Verification {% endblock %}
+
+{% block content %}
+
+<div class="container d-flex justify-content-center align-items-center vh-100">
+    <div class="row text-center">
+      <div class="col-lg-12">
+        <!-- Success Icon (Bootstrap Check Circle Icon) -->
+        <i class="bi bi-check-circle-fill text-success mb-3" style="font-size: 3rem;"></i>
+        
+        <!-- Success Message -->
+        <div class="col-lg-6 col-md-8 mx-auto">
+          <h1 class="fw-light">Verification Successful</h1>
+          <p class="lead text-muted">Your email has been successfully verified. Thank you for confirming your email address.</p>
+          <p>
+            <a href="/admin-login" class="btn btn-deap-outline my-2">Login Now</a>
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+{% endblock %}
