@@ -1,0 +1,54 @@
+{% extends "base.html" %}
+{% block content %}
+
+  <!-- Fixed-top Navbar -->
+  <nav class="navbar navbar-dark bg-dark fixed-top">
+    <div class="container d-flex justify-content-between">
+      <!-- Left side: Dashboard with icon -->
+      <a class="navbar-brand d-flex align-items-center" href="/login/">
+        <i class="bi bi-speedometer2 me-2"></i> Dashboard
+      </a>
+      <!-- Right side: Logout link with icon -->
+      <a id="logoutButton" class="nav-link text-white d-flex align-items-center" href="/logout">
+        Logout <i class="bi bi-box-arrow-right ms-2"></i>
+      </a>
+    </div>
+  </nav>
+
+  <!-- Main content area -->
+  <div class="container py-5">
+    <div class="row justify-content-center py-5">
+      <!-- Card for Published Articles -->
+      <div class="col-md-4 d-flex justify-content-center">
+        <div class="card mb-3" style="width: 25rem;">
+          <div class="card-body">
+            <h5 class="card-title">Articles Publiés 📚</h5>
+            <p class="card-text">
+              Consultez et modifiez vos articles publiés pour corriger ou mettre à jour leur contenu. 
+              Gérez facilement vos publications et apportez les améliorations nécessaires. 📝
+            </p>
+            <a href="/articles" class="btn btn-deap">Gérer les Articles <i class="bi bi-arrow-right-circle"></i></a>
+          </div>
+        </div>
+      </div>
+
+      <!-- Card for Creating a New Article -->
+      <div class="col-md-4 d-flex justify-content-center">
+        <div class="card mb-3" style="width: 18rem;">
+          <div class="card-body">
+            <h5 class="card-title">Nouveau Article 🚀</h5>
+            <p class="card-text">
+              Publiez de nouvelles idées et inspirez vos lecteurs ! Créez un article captivant et partagez votre vision. 🌟
+            </p>
+            <a href="/create-article" class="btn btn-deap">Créer un Article <i class="bi bi-arrow-right-circle"></i></a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  
+{% endblock %}
+
+{% block extra_js %}
+<script type="module" src="{{ url_for('static', path='js/login.js') }}"></script>
+{% endblock %}

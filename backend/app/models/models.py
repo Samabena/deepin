@@ -1,4 +1,4 @@
-from sqlalchemy import Column, Integer, String, Boolean, TIMESTAMP, UniqueConstraint, Column, Integer, String, Text, DateTime
+from sqlalchemy import Column, Integer, String, Boolean, TIMESTAMP, UniqueConstraint, Column, Integer, String, Text, DateTime, ForeignKey
 from app.db.database import Base
 from datetime import datetime, timedelta
 from sqlalchemy.orm import relationship
@@ -46,6 +46,10 @@ class BlogPost(Base):
     cta = Column(Text, nullable=True)
     created_at = Column(DateTime, default=datetime.utcnow) 
 
+    user_id = Column(Integer, ForeignKey("users.id"), nullable=False)
+    owner = relationship("User", back_populates="posts")
+    
+
 
 # Users Table definition in database 
 
@@ -64,6 +68,9 @@ class User(Base):
     session_expiry = Column(DateTime, nullable=True)
     reset_token = Column(String, unique=True, nullable=True)
     profile_picture = Column(String, nullable=True) 
+    posts = relationship("BlogPost", back_populates="owner")
+
+
  
 
     def set_session(self, token: str):

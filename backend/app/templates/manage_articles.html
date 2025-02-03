@@ -1,42 +1,52 @@
 {% extends "base.html" %}
 {% block content %}
 
-
-  <!-- Fixed-top Navbar -->
-  <nav class="navbar navbar-dark bg-dark fixed-top">
-    <div class="container d-flex justify-content-between">
-      <!-- Left side: Dashboard with icon -->
-      <a class="navbar-brand d-flex align-items-center" href="/login/">
-        <i class="bi bi-speedometer2 me-2"></i> Dashboard
-      </a>
-      <!-- Right side: Logout link with icon -->
-      <a  id="logoutButton" class="nav-link text-white d-flex align-items-center" href="/logout">
-        Logout <i class="bi bi-box-arrow-right ms-2"></i>
-      </a>
-    </div>
-  </nav>
-
-
-
-
 <div class="container py-5">
-    <main>
-      <div class="py-5 text-center">
-        <!-- Company Logo -->
-        <img class="d-block mx-auto mb-4" src="{{ url_for('static', path='images/in-deep-ai-logo.png') }}" alt="Logo-in-deep-ai" width="100" height="100">
+    <h1 class="mb-4">Gérer vos Articles</h1>
+    <div class="row">
+        {% for post in posts %}
+        <div class="col-md-4 mb-4 d-flex justify-content-center">
 
-        <h2>📝 Publier un article de blog</h2>
-        <p class="lead">Remplissez le formulaire ci-dessous pour soumettre un nouvel article de blog.</p>
-      </div>
-  
-      <div class="row g-5">
-        <div class="col-md-8 mx-auto">
-          <h4 class="mb-3">Informations sur l'article</h4>
+            <div class="card" style="width: 18rem;">
+                <!-- Header image -->
+                <img src="{{ post.header_image }}" class="card-img-top" alt="Image de {{ post.title }}">
+                <div class="card-body d-flex flex-column">
+                    <!-- Title below the image -->
+                    <h5 class="card-title">{{ post.title }}</h5>
+                    <!-- Edit icon on the right end of a small text container -->
+                    <div class="d-flex justify-content-end mt-auto">
+
+                        <a href="#" class="btn btn-link edit-article-btn"
+                        data-post-id="{{ post.id }}">
+                        <i class="bi bi-pencil-square"></i>
+                        </a>
+
+                        
+                    </div>
+                </div>
+            </div>
+
+        </div>
+        {% endfor %}
+    </div>
+</div>
+
+<!-- Edit Article Modal -->
+<div class="modal fade" id="editArticleModal" tabindex="-1" aria-labelledby="editArticleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+
+      <div class="modal-content">
+        <form id="editArticleForm">
+
+          <div class="modal-header">
+            <h5 class="modal-title" id="editArticleModalLabel">Modifier l'article</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Fermer"></button>
+          </div>
 
 
-          <form id="blogForm" class="needs-validation" novalidate enctype="multipart/form-data">
-  
-            <!-- Header Image -->
+          <div class="modal-body">
+
+          <!-- Header Image -->
             <div class="mb-3">
               <label for="image" class="form-label">📸 Image en tête d’article</label>
               <input type="file" class="form-control" id="image" name="image" accept="image/*" required>
@@ -53,7 +63,11 @@
                 Un titre est requis.
               </div>
             </div>
-          
+
+            <!-- Hidden ID -->
+
+            <input type="hidden" id= "id" name="id">
+
             <!-- Metadata -->
             <div class="row g-3">
               <div class="col-sm-6">
@@ -155,20 +169,23 @@
               <label for="cta" class="form-label">🎯 Call-to-Action</label>
               <input type="text" class="form-control" id="cta" name="cta" placeholder="Ex: Inscrivez-vous à notre formation IA et Marketing Digital !">
             </div>
-          
-            <hr class="my-4">
-          
-            <!-- Submit Button -->
-            <button class="w-100 btn btn-deap btn-lg mb-3" type="submit">📤 Publier l’article</button>
-          </form>
+        
         </div>
+
+
+
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Annuler</button>
+            <button type="submit" class="btn btn-primary">Enregistrer les modifications</button>
+          </div>
+        </form>
       </div>
-    </main>
+    </div>
   </div>
   
+
 {% endblock %}
 
 {% block extra_js %}
-<script type="module" src="{{ url_for('static', path='js/backend.js') }}"></script>
-<script type="module" src="{{ url_for('static', path='js/login.js') }}"></script>
+<script type="module" src="{{ url_for('static', path='js/edit_articles.js') }}"></script>
 {% endblock %}

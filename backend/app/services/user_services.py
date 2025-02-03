@@ -4,11 +4,13 @@ from sendgrid import SendGridAPIClient
 from sendgrid.helpers.mail import Mail, Email
 from fastapi_mail import FastMail, MessageSchema, ConnectionConfig
 from fastapi.responses import JSONResponse
-from fastapi import HTTPException
+from fastapi import HTTPException, Depends, Request, status
 from app.schemas.schemas import UserCreate
 from sqlalchemy.orm import Session
 from app.crud.crud import create_user ,authenticate_user, create_session, clear_session # get_user_by_id,
 from app.models.models import User
+from datetime import datetime
+from app.db.database import get_db
 
 
 SENDGRID_API_KEY = os.getenv("SENDGRID_API_KEY")  
@@ -219,3 +221,22 @@ def login_user(db: Session, email: str, password: str):
 def logout_user(db: Session, user_id: int):
     clear_session(db, user_id)
 
+
+
+#Verify if user is connected 
+
+def get_current_user(request: Request, db: Session = Depends(get_db)):
+    session_token = request.cookies.get("session_token")
+    if not session_token:
+        # You can either raise an exception or redirect to login
+        raise HTTPException(status_code=status.HTTP_401_UNAUTHORIZED, detail="Not authenticated")
+    
+    user = db.query(User).filter(
+        User.session_token == session_token,
+        User.session_expiry > datetime.now()
+    ).first()
+    
+    if not user:
+        raise HTTPException(status_code=status.HTTP_401_UNAUTHORIZED, detail="Session expired or invalid")
+    
+    return user

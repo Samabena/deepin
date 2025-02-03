@@ -9,8 +9,7 @@ from app.schemas.schemas import RegistrationCreate, UserCreate
 from fastapi.middleware.cors import CORSMiddleware
 from pathlib import Path
 from fastapi import BackgroundTasks
-from app.services.user_services import send_registration_email, verify_user_account, login_user, logout_user
-from app.services.user_services import send_email , register_user 
+from app.services.user_services import send_registration_email, verify_user_account, login_user, logout_user, send_email , register_user, get_current_user 
 from datetime import datetime, timedelta
 from sqlalchemy import extract
 from typing import Optional
@@ -131,7 +130,8 @@ async def submit_blog(
     section_3_content: str = Form(...),
     conclusion: str = Form(...),
     cta: str = Form(None),
-    db: Session = Depends(get_db)
+    db: Session = Depends(get_db),
+    current_user: User = Depends(get_current_user) 
 ):
     # ✅ Validate & Parse `publication_date`
     try:
@@ -157,7 +157,8 @@ async def submit_blog(
         section_3_title=section_3_title,
         section_3_content=section_3_content,
         conclusion=conclusion,
-        cta=cta
+        cta=cta,
+        user_id=current_user.id 
     )
 
     
@@ -403,7 +404,7 @@ def home(request: Request, fullname: str, db: Session = Depends(get_db)):
     #profile_picture_url = user.profile_picture or "https://www.gravatar.com/avatar/00000000000000000000000000000000?d=mp&f=y"
 
     # Render the home.html template with user's fullname
-    return templates.TemplateResponse("admin.html", {"request": request, "fullname": user.fullname, "user_id": user.id, "show_navbar": False})
+    return templates.TemplateResponse("dashboard.html", {"request": request, "fullname": user.fullname, "user_id": user.id, "show_navbar": False})
 
 
 @app.post("/logout/")
@@ -420,3 +421,146 @@ def logout(request: Request, response: Response, db: Session = Depends(get_db)):
     # Clear the session cookie
     response.delete_cookie(key="session_token")
     return {"message": "Logout successful"}
+
+
+@app.get("/create-article")
+def create_article(
+    request: Request,
+    current_user: User = Depends(get_current_user),
+    db: Session = Depends(get_db)
+):
+    context = {
+        "request": request,
+        "fullname": current_user.fullname ,
+        "show_navbar": False
+    }
+    return templates.TemplateResponse("admin.html", context)
+
+
+@app.get("/login/")
+def home(request: Request, message: str = Query(None), db: Session = Depends(get_db)):
+    
+    session_token = request.cookies.get("session_token")
+    
+    # If session token exists, validate it
+    if session_token:
+        user = db.query(User).filter(User.session_token == session_token, User.session_expiry > datetime.now()).first()
+        if user:
+            # Redirect to /home/{fullname} if the user is authenticated
+            formatted_fullname = user.fullname.replace(" ", "-").lower()
+            return RedirectResponse(url=f"/admin/{formatted_fullname}")
+
+    # Determine the message to display on the login page
+    login_message = "Please log in"
+    if message == "not_logged_in":
+        login_message = "You haven't logged in, please log in"
+    elif message == "session_expired":
+        login_message = "Your session has expired, please log in again"
+
+    return templates.TemplateResponse("login.html", {"request": request, "no_navbar": True, "login_message": login_message})
+
+
+@app.get("/articles")
+def manage_articles(
+    request: Request,
+    current_user = Depends(get_current_user),
+    db: Session = Depends(get_db)
+):
+    # Query for all blog posts that belong to the current user.
+    posts = db.query(BlogPost).filter(BlogPost.user_id == current_user.id).all()
+    
+    # Pass posts and any other context data (like fullname) to the template.
+    context = {
+        "request": request,
+        "posts": posts,
+        "fullname": current_user.fullname,
+        "show_navbar": False
+    }
+    return templates.TemplateResponse("manage_articles.html", context)
+
+
+
+@app.post("/admin/update-article/{post_id}")
+async def update_article(
+    post_id: int,
+    header_image: str = Form(...),
+    title: str = Form(...),
+    author: str = Form(...),
+    about_author: str = Form(...),
+    publication_date: str = Form(...),
+    reading_time: int = Form(...),
+    introduction: str = Form(...),
+    section_1_title: str = Form(...),
+    section_1_content: str = Form(...),
+    quote: str = Form(None),
+    section_2_title: str = Form(...),
+    section_2_content: str = Form(...),
+    tools: str = Form(None),
+    section_3_title: str = Form(...),
+    section_3_content: str = Form(...),
+    conclusion: str = Form(...),
+    cta: str = Form(None),
+    db: Session = Depends(get_db),
+    current_user: User = Depends(get_current_user)
+):
+    post = db.query(BlogPost).filter(BlogPost.id == post_id, BlogPost.user_id == current_user.id).first()
+    if not post:
+        raise HTTPException(status_code=404, detail="Article non trouvé")
+    
+    
+    try:
+        pub_date = datetime.strptime(publication_date, "%Y-%m-%d")
+    except ValueError:
+        raise HTTPException(status_code=400, detail="📅 Date de publication invalide. Format attendu: YYYY-MM-DD")
+
+    header_image=header_image,
+    title=title,
+    author=author,
+    about_author=about_author,
+    publication_date=pub_date,
+    reading_time=reading_time,
+    introduction=introduction,
+    section_1_title=section_1_title,
+    section_1_content=section_1_content,
+    quote=quote,
+    section_2_title=section_2_title,
+    section_2_content=section_2_content,
+    tools=tools,
+    section_3_title=section_3_title,
+    section_3_content=section_3_content,
+    conclusion=conclusion,
+    cta=cta,
+
+    db.commit()
+    db.refresh(post)
+    return {"message": "Article mis à jour", "post_id": post.id}
+
+
+
+@app.get("/admin/get-article/{post_id}")
+def get_article(post_id: int, db: Session = Depends(get_db), current_user: User = Depends(get_current_user)):
+    post = db.query(BlogPost).filter(BlogPost.id == post_id, BlogPost.user_id == current_user.id).first()
+    if not post:
+        raise HTTPException(status_code=404, detail="Article not found")
+    
+    # Return post details as JSON
+    return {
+        "id": post.id,
+        "header_image": post.header_image,
+        "title": post.title,
+        "author": post.author,
+        "about_author" : post.about_author,
+        "publication_date": post.publication_date,
+        "reading_time":post.reading_time,
+        "introduction": post.introduction,
+        "section_1_title": post.section_1_title,
+        "section_1_content": post.section_1_content,
+        "quote": post.quote,
+        "section_2_title": post.section_2_title,
+        "section_2_content": post.section_2_content,
+        "tools": post.tools,
+        "section_3_title": post.section_3_title,
+        "section_3_content": post.section_3_content,
+        "conclusion": post.conclusion,
+        "cta": post.cta
+    }
