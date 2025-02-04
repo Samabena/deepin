@@ -31,6 +31,9 @@ footer {
 [role="region"][aria-label="Notifications (F8)"] {
     display: none !important;
 }
+.border-deap{
+    border-color:  #f86308;
+}
 
 .btn-deap-outline {
     color: #f86308; 
@@ -55,7 +58,7 @@ footer {
 
 .btn-deap {
     color: #fff !important; 
-    background-color: #f86308; 
+    background-color: #f86308 !important; 
     border: none; 
 }
 
@@ -95,6 +98,10 @@ footer {
     height: 3px; 
     background-color: #f86308;
     border-radius: 2px;
+}
+
+nav-link.active {
+    font-weight: bold; /* Make the active link bold */
 }
 
 /* Styles for small screens */

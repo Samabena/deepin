@@ -11,6 +11,7 @@ from app.crud.crud import create_user ,authenticate_user, create_session, clear_
 from app.models.models import User
 from datetime import datetime
 from app.db.database import get_db
+import secrets
 
 
 SENDGRID_API_KEY = os.getenv("SENDGRID_API_KEY")  
@@ -240,3 +241,28 @@ def get_current_user(request: Request, db: Session = Depends(get_db)):
         raise HTTPException(status_code=status.HTTP_401_UNAUTHORIZED, detail="Session expired or invalid")
     
     return user
+
+
+# Service to update password
+
+async def forgot_password_service(db: Session, email: str):
+    user = db.query(User).filter(User.email == email).first()
+    if not user:
+        raise HTTPException(status_code=400, detail="Email non trouvé")
+
+    # Générer un token de réinitialisation
+    reset_token = secrets.token_urlsafe(32)
+    user.reset_token = reset_token
+    db.commit()
+
+    # Créer un lien de réinitialisation à envoyer par email
+    reset_link = f"{BASE_URL}/password-update/{user.id}?token={reset_token}"
+
+    rendered_template = f"Bonjour {user.fullname}, veuillez réinitialiser votre mot de passe en cliquant sur le lien suivant : {reset_link}"
+
+    subject = "Demande de réinitialisation de mot de passe"
+    # Sending via Sendgrid
+    sendgrid_success = await send_email_via_sendgrid(user.email, subject, rendered_template)
+
+    return {"message": "Si votre email est enregistré, vous recevrez un lien de réinitialisation de mot de passe."}
+

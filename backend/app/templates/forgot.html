@@ -1,0 +1,39 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<div class="container-fluid d-flex align-items-center justify-content-center min-vh-100">
+    <div class="w-100" style="max-width: 400px;">
+      <main class="form-container">
+        <form id="forgotPasswordForm" method="post" action="/forgot-password/">
+
+            <div class="text-center">
+                <img class="logo" src="{{ url_for('static', path='images/in-deep-ai-logo.png') }}" alt="logo xsai" width="80" height="80">
+              </div>
+
+          <div id="alertContainer"></div> 
+        
+          <div class="text-center">
+            <div id="spinner" class="spinner-grow text-primary d-none" role="status"></div>
+          </div>
+        
+          <h1 class="h3 mb-3 fw-normal">Entrez votre adresse e-mail pour réinitialiser votre mot de passe</h1>
+        
+          <div class="form-floating mb-3">
+            <input type="email" class="form-control" id="floatingInput" name="email" placeholder="name@example.com" required>
+            <label for="floatingInput">Adresse e-mail</label>
+          </div>
+        
+          <button class="btn btn-deap w-100 py-2" type="submit">Réinitialiser le mot de passe</button>
+        
+          <div class="text-center mt-3">
+            <a href="/login">Connectez-vous ici</a>
+          </div>
+        </form>    
+      </main>
+    </div>
+  </div>
+  
+  
+
+{% endblock %}

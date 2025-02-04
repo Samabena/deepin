@@ -9,13 +9,14 @@ from app.schemas.schemas import RegistrationCreate, UserCreate
 from fastapi.middleware.cors import CORSMiddleware
 from pathlib import Path
 from fastapi import BackgroundTasks
-from app.services.user_services import send_registration_email, verify_user_account, login_user, logout_user, send_email , register_user, get_current_user 
+from app.services.user_services import send_registration_email, verify_user_account, login_user, logout_user, send_email , register_user, get_current_user, forgot_password_service
 from datetime import datetime, timedelta
 from sqlalchemy import extract
 from typing import Optional
 from dotenv import load_dotenv
 from jose import jwt 
 import os
+from app.crud.crud import update_user_password
 
 
 
@@ -64,6 +65,10 @@ async def home(request: Request):
 @app.get("/admin-registration", response_class=HTMLResponse)
 async def home(request: Request):
     return templates.TemplateResponse("admin_register.html", {"request": request, "show_navbar": False})
+
+@app.get("/forgot-password", response_class=HTMLResponse)
+async def home(request: Request):
+    return templates.TemplateResponse("forgot.html", {"request": request, "show_navbar": False})
 
 # REGISTRATION ROUTE
 
@@ -453,7 +458,7 @@ def home(request: Request, message: str = Query(None), db: Session = Depends(get
             return RedirectResponse(url=f"/admin/{formatted_fullname}")
 
     # Determine the message to display on the login page
-    login_message = "Please log in"
+    login_message = "Veuillez vous connecter."
     if message == "not_logged_in":
         login_message = "Vous n'êtes pas connecté, veuillez vous connecter"
     elif message == "session_expired":
@@ -570,6 +575,61 @@ def get_article(post_id: int, db: Session = Depends(get_db), current_user: User 
 
 
 
+# PASSWORD UPDATE ROUTE SETTINGS
+
+@app.post("/forgot-password/")
+async def forgot_password(email: str = Form(...), db: Session = Depends(get_db)):
+    result = await forgot_password_service(db=db, email=email)
+    return JSONResponse(status_code=200, content={"message": result})
+
+
+@app.get("/password-update/{user_id}")
+def password_update_page(user_id: int, token: str, request: Request, db: Session = Depends(get_db)):
+    user = db.query(User).filter(User.id == user_id, User.reset_token == token).first()
+    if not user:
+        return templates.TemplateResponse("verification_failed.html", {"request": request, "message": "Invalid or expired token", "show_navbar": False})
+    
+    return templates.TemplateResponse("password_update.html", {"request": request, "user_fullname": user.fullname, "user_id": user_id, "token": token, "show_navbar": False})
+
+
+@app.post("/password-update/{user_id}")
+def password_update(
+    user_id: int,
+    token: str,
+    request: Request,
+    new_password: str = Form(...),
+    confirm_password: str = Form(...),
+    db: Session = Depends(get_db)
+):
+    
+    try:
+        update_user_password(db, user_id, token, new_password, confirm_password)
+        
+        return templates.TemplateResponse(
+            "password_update_success.html", {"request": request, "message": "Password updated successfully!", "show_navbar": False}
+        )
+    except HTTPException as e:
+        return templates.TemplateResponse(
+            "verification_failed.html", {"request": request, "message": str(e.detail), "show_navbar": False}
+        )
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 @app.exception_handler(404)
 def custom_404_handler(request: Request, exc):
     return templates.TemplateResponse("404.html", {"request": request, "show_navbar": False}, status_code=404, )
+
+

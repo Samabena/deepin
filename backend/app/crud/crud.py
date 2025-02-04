@@ -164,3 +164,24 @@ def clear_session(db: Session, user_id: int):
         user.session_expiry = None
         db.commit()
         db.refresh(user)
+
+
+def update_user_password(
+    db: Session, user_id: int, token: str, new_password: str, confirm_password: str
+):
+    # Rechercher l'utilisateur et valider le token de réinitialisation
+    user = db.query(User).filter(User.id == user_id, User.reset_token == token).first()
+    if not user:
+        raise HTTPException(status_code=400, detail="Token invalide ou expiré")
+    
+    # Vérifier que les mots de passe correspondent
+    if new_password != confirm_password:
+        raise HTTPException(status_code=400, detail="Les mots de passe ne correspondent pas")
+
+    # Hasher le nouveau mot de passe et mettre à jour les informations de l'utilisateur
+    hashed_password = pwd_context.hash(new_password)
+    user.hashed_password = hashed_password
+    user.reset_token = None  # Invalider le token de réinitialisation
+    db.commit()
+
+    return {"message": f"{user.fullname}, vous avez modifié votre mot de passe avec succès. Veuillez retourner sur la page de connexion."}
