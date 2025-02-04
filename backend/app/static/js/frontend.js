@@ -90,3 +90,14 @@ document.addEventListener("DOMContentLoaded", function() {
   // LinkedIn Share Link
   document.getElementById("linkedinShare").href = `https://www.linkedin.com/sharing/share-offsite/?url=${postUrl}`;
 });
+
+
+document.getElementById("settingsLink").addEventListener("click", function(e) {
+  e.preventDefault();
+  document.getElementById("settingsAlert").classList.toggle("d-none");
+  document.getElementById("continueContainer").classList.toggle("d-none");
+});
+
+document.getElementById("continueBtn").addEventListener("click", function() {
+  window.location.href = "/signup";
+});

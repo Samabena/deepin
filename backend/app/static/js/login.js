@@ -26,11 +26,11 @@ document.addEventListener("DOMContentLoaded", function () {
                 return;
             }
 
-            alert('loggining!!')
+            
 
             // If the response is okay, assume login is successful
             const responseData = await response.json();
-            alert('loggining innnnnn!!')
+
 
             document.addEventListener("DOMContentLoaded", () => {
                 const logoModalElement = document.getElementById("logoTransitionModal");

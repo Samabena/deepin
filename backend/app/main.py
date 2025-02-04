@@ -436,8 +436,10 @@ def create_article(
     }
     return templates.TemplateResponse("admin.html", context)
 
-
+@app.get("/login")
 @app.get("/login/")
+@app.get("/admin-login")
+@app.get("/admin")
 def home(request: Request, message: str = Query(None), db: Session = Depends(get_db)):
     
     session_token = request.cookies.get("session_token")
@@ -453,11 +455,12 @@ def home(request: Request, message: str = Query(None), db: Session = Depends(get
     # Determine the message to display on the login page
     login_message = "Please log in"
     if message == "not_logged_in":
-        login_message = "You haven't logged in, please log in"
+        login_message = "Vous n'êtes pas connecté, veuillez vous connecter"
     elif message == "session_expired":
-        login_message = "Your session has expired, please log in again"
+        login_message = "Votre session a expiré, veuillez vous reconnecter"
 
-    return templates.TemplateResponse("login.html", {"request": request, "no_navbar": True, "login_message": login_message})
+
+    return templates.TemplateResponse("admin_login.html", {"request": request, "show_navbar": False, "login_message": login_message})
 
 
 @app.get("/articles")
@@ -513,23 +516,23 @@ async def update_article(
     except ValueError:
         raise HTTPException(status_code=400, detail="📅 Date de publication invalide. Format attendu: YYYY-MM-DD")
 
-    header_image=header_image,
-    title=title,
-    author=author,
-    about_author=about_author,
-    publication_date=pub_date,
-    reading_time=reading_time,
-    introduction=introduction,
-    section_1_title=section_1_title,
-    section_1_content=section_1_content,
-    quote=quote,
-    section_2_title=section_2_title,
-    section_2_content=section_2_content,
-    tools=tools,
-    section_3_title=section_3_title,
-    section_3_content=section_3_content,
-    conclusion=conclusion,
-    cta=cta,
+    post.header_image=header_image,
+    post.title=title,
+    post.author=author,
+    post.about_author=about_author,
+    post.publication_date=pub_date,
+    post.reading_time=reading_time,
+    post.introduction=introduction,
+    post.section_1_title=section_1_title,
+    post.section_1_content=section_1_content,
+    post.quote=quote,
+    post.section_2_title=section_2_title,
+    post.section_2_content=section_2_content,
+    post.tools=tools,
+    post.section_3_title=section_3_title,
+    post.section_3_content=section_3_content,
+    post.conclusion=conclusion,
+    post.cta=cta,
 
     db.commit()
     db.refresh(post)
@@ -564,3 +567,9 @@ def get_article(post_id: int, db: Session = Depends(get_db), current_user: User 
         "conclusion": post.conclusion,
         "cta": post.cta
     }
+
+
+
+@app.exception_handler(404)
+def custom_404_handler(request: Request, exc):
+    return templates.TemplateResponse("404.html", {"request": request, "show_navbar": False}, status_code=404, )

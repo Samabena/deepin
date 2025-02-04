@@ -9,46 +9,46 @@
 {% block content %}
 
 <div class="container-fluid full-screen">
-  <main class="form-container">
-
-    <form id="loginForm" method="post" action="/login/">
-
-      <img class="logo" src="{{ url_for('static', path='images/in-deep-ai-logo.png') }}" alt="Logo-in-deep-ai" width="120" height="120">
-      <div id="alertContainer">
-          
-      </div> 
-
-      <div class="text-center">
-          <div id="spinner" class="spinner-grow text-primary d-none" role="status">
-          </div>
-      </div>
-
-      <h1 class="h3 mb-3 fw-normal">{{login_message}}</h1>
+    <main class="form-container">
   
-      <div class="form-floating mb-3">
-          <input type="email" class="form-control" id="floatingInput" name="email" placeholder="name@example.com" required>
-          <label for="floatingInput">Email address</label>
-      </div>
-      <div class="form-floating mb-3">
-          <input type="password" class="form-control" id="floatingPassword" name="password" placeholder="Password" required>
-          <label for="floatingPassword">Password</label>
-      </div>
+      <form id="loginForm" method="post" action="/login/">
   
+        <img class="logo" src="{{ url_for('static', path='images/in-deep-ai-logo.png') }}" alt="Logo-in-deep-ai" width="120" height="120">
+        <div id="alertContainer">
+            
+        </div> 
   
-      <button class="btn btn-deap w-100 py-2 btn-login" type="submit" id="loginButton">Log In</button>
+        <div class="text-center">
+            <div id="spinner" class="spinner-grow text-primary d-none" role="status">
+            </div>
+        </div>
   
-      <div class="text-center mt-3">
-          <a href="/admin-registration">Don't have an account? Register here</a>
-      </div>
-
-      <div class="text-center mt-3">
-          <a href="/forgot-password/" class="text-body-secondary">Forgot your password?</a>
-      </div>
-
-  </form>
+        <h1 class="h3 mb-3 fw-normal">{{login_message}}</h1>
+    
+        <div class="form-floating mb-3">
+            <input type="email" class="form-control" id="floatingInput" name="email" placeholder="name@example.com" required>
+            <label for="floatingInput">Adresse e-mail</label>
+        </div>
+        <div class="form-floating mb-3">
+            <input type="password" class="form-control" id="floatingPassword" name="password" placeholder="Password" required>
+            <label for="floatingPassword">Mot de passe</label>
+        </div>
+    
+        <button class="btn btn-deap w-100 py-2 btn-login" type="submit" id="loginButton">Se connecter</button>
+    
+        <div class="text-center mt-3">
+            <a href="/admin-registration">Vous n'avez pas de compte ? Inscrivez-vous ici</a>
+        </div>
   
-  </main>
-</div>
+        <div class="text-center mt-3">
+            <a href="/forgot-password/" class="text-body-secondary">Mot de passe oublié ?</a>
+        </div>
+  
+    </form>
+    
+    </main>
+  </div>
+  
 
 {% endblock %}
 

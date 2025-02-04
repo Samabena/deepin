@@ -7,7 +7,7 @@ export function showPopupAlert(message) {
 
     setTimeout(() => {
         popupAlert.classList.add("d-none");
-    }, 3000);
+    }, 5000);
 }
 
 

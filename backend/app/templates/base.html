@@ -31,17 +31,64 @@
             <button class="navbar-toggler ms-auto" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
             </button>
+
             <div class="collapse navbar-collapse justify-content-center" id="navbarNav">
                 <ul class="navbar-nav text-center">
                     <li class="nav-item"><a class="nav-link  fs-5 " href="/" id="home-link">Accueil</a></li>
                     <li class="nav-item"><a class="nav-link fs-5" href="/nos-formations" id="formations-link">Formations</a></li>
                     <li class="nav-item"><a class="nav-link fs-5" href="/contactez-nous" id="contact-link">Contact</a></li>
+                    <li class="nav-item"><a class="nav-link fs-5" href="/blog" id="blog-link">AI-Blog</a></li>
+                    
+                    <a class=" fs-5 mx-5 d-lg-none" href="#" data-bs-toggle="modal" data-bs-target="#infoModal">
+                        <span class="d-inline-flex align-items-center justify-content-center rounded-circle border" style="width: 2.5rem; height: 2.5rem; border: 2px solid #f86308 !important; color: #000">
+                        <i class="bi bi-gear-fill fs-3"></i>
+                        </span>
+                    </a>
+                    
                 </ul>
             </div>
+
         </div>
+
+        <div class="d-flex align-items-center d-none d-lg-block">
+            <a class=" fs-5 mx-5" href="#" data-bs-toggle="modal" data-bs-target="#infoModal">
+              <span class="d-inline-flex align-items-center justify-content-center rounded-circle border" style="width: 2.5rem; height: 2.5rem; border: 2px solid #f86308 !important;color: #000">
+                <i class="bi bi-gear-fill fs-3"></i>
+              </span>
+            </a>
+        </div>
+          
+          
+
+
     </nav>
     {% endif %}
     
+  
+  <!-- Modal -->
+  <div class="modal fade" id="infoModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h1 class="modal-title fs-5" id="exampleModalLabel">     
+            <i class="bi bi-info-circle-fill fs-3" style="color: #f86308;"></i>
+          </span>Information</h1>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+            <p> ⚠️ Ces paramètres sont réservés aux passionnés de l’IA 🤖 en Afrique francophone 🌍!  <br>
+                Si vous souhaitez devenir acteur du développement en publiant des articles de qualité sur l’IA et partager votre expertise, cliquez sur <strong>Continuer 🚀</strong> pour vous inscrire gratuitement et commencer à inspirer notre continent 🔥.</p>
+        </div>
+        <div class="modal-footer">
+            <a href="/admin-login" class="btn btn-outline-secondary" role="button">Se connecter</a>
+            <a href="/admin-registration" class="btn btn-deap" role="button">S'inscrire</a>
+            
+        </div>
+      </div>
+    </div>
+  </div>
+
+
     
 
     <!-- Main Content -->
@@ -143,6 +190,7 @@
             <li class="nav-item"><a href="/" class="nav-link px-2 text-body-secondary">Acceuil</a></li>
             <li class="nav-item"><a href="/nos-formations" class="nav-link px-2 text-body-secondary">Formations</a></li>
             <li class="nav-item"><a href="/contactez-nous" class="nav-link px-2 text-body-secondary">Contact</a></li>
+            <li class="nav-item"><a class="nav-link  px-2 text-body-secondary" href="/blog" id="blog-link">AI-Blog</a></li>
         </ul>
         <p class="text-center text-body-secondary text-deap" style="font-weight: bold;">© 2025 | IN-DEEP-AI</p>
         <p class="text-center text-muted">

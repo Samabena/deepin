@@ -1,4 +1,4 @@
-import { showAlert} from './conmon.js';
+import { showAlert, showPopupAlert} from './conmon.js';
 
 
 document.addEventListener("DOMContentLoaded", function () {
@@ -15,7 +15,9 @@ document.addEventListener("DOMContentLoaded", function () {
 sendButton.addEventListener("click", async function (event) {
     event.preventDefault(); // Prevent traditional form submission
 
+    
     let isValid = true;
+    
 
     // Username Validation
     const usernameRegex = /^[a-zA-Z][a-zA-Z0-9_]{2,14}$/;
@@ -87,16 +89,15 @@ sendButton.addEventListener("click", async function (event) {
             method: "POST",
             body: formData  // 📩 Utiliser formData directement
         });
-         // Replace with your backend call
         
-         // Iterate over all key/value pairs and log them
-        for (const [key, value] of formData.entries()) {
-            console.log(`${key}: ${value}`);
+        
+        if (response.ok) {
+            showPopupAlert("🎉 Votre inscription a été réalisée avec succès ! Un email de confirmation vous a été envoyé ✉️. Merci de vérifier votre boîte de réception pour activer votre compte.");
+        } else {
+            showPopupAlert("⚠️ Échec de l'enregistrement ! Une erreur s'est produite, veuillez réessayer plus tard.");
         }
-  
-        console.log(response);
-
-        showAlert("Registration successful!", "success", "#alertContainer");
+        
+        
 
         // Reset form fields and clear validation states
         registrationForm.reset();
@@ -110,7 +111,3 @@ sendButton.addEventListener("click", async function (event) {
 });
 
 });
-
-
-
-
