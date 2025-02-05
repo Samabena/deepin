@@ -4,30 +4,34 @@
 <div class="container py-5">
     <h1 class="mb-4">Gérer vos Articles</h1>
     <div class="row">
-        {% for post in posts %}
-        <div class="col-md-4 mb-4 d-flex justify-content-center">
-
-            <div class="card" style="width: 18rem;">
-                <!-- Header image -->
-                <img src="{{ post.header_image }}" class="card-img-top" alt="Image de {{ post.title }}">
-                <div class="card-body d-flex flex-column">
-                    <!-- Title below the image -->
-                    <h5 class="card-title">{{ post.title }}</h5>
-                    <!-- Edit icon on the right end of a small text container -->
-                    <div class="d-flex justify-content-end mt-auto">
-
-                        <a href="#" class="btn btn-link edit-article-btn"
-                        data-post-id="{{ post.id }}">
-                        <i class="bi bi-pencil-square"></i>
-                        </a>
-
-                        
-                    </div>
-                </div>
-            </div>
-
+        {% if posts|length == 0 %}
+        <div class="alert alert-info text-center my-4">
+          <p>
+            Vous n'avez pas encore publié d'article. Veuillez commencer votre publication en cliquant 
+            <a href="/create-article" class="alert-link">ici</a> 😊
+          </p>
         </div>
+      {% else %}
+        {% for post in posts %}
+          <div class="col-md-4 mb-4 d-flex justify-content-center">
+            <div class="card" style="width: 18rem;">
+              <!-- Header image -->
+              <img src="{{ post.header_image }}" class="card-img-top" alt="Image de {{ post.title }}">
+              <div class="card-body d-flex flex-column">
+                <!-- Title below the image -->
+                <h5 class="card-title">{{ post.title }}</h5>
+                <!-- Edit icon on the right end of a small text container -->
+                <div class="d-flex justify-content-end mt-auto">
+                  <a href="#" class="btn btn-link edit-article-btn" data-post-id="{{ post.id }}">
+                    <i class="bi bi-pencil-square"></i>
+                  </a>
+                </div>
+              </div>
+            </div>
+          </div>
         {% endfor %}
+      {% endif %}
+      
     </div>
 </div>
 
@@ -187,5 +191,5 @@
 {% endblock %}
 
 {% block extra_js %}
-<script type="module" src="{{ url_for('static', path='js/edit_articles.js') }}"></script>
+<script type="module" src="{{ secure_url_for(request, 'static', path='js/edit_articles.js') }}"></script>
 {% endblock %}

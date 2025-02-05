@@ -18,13 +18,9 @@ from jose import jwt
 import os
 from app.crud.crud import update_user_password
 
-
-
-
-
 app = FastAPI()
 
-# Allow CORS for all origins and methods (adjust as needed)
+
 app.add_middleware(
     CORSMiddleware,
     allow_origins=["*"],  # Replace with specific origins in production
@@ -41,6 +37,15 @@ Base.metadata.create_all(bind=engine)
 
 app.mount("/static", StaticFiles(directory=Path(__file__).parent / "static"), name="static")
 templates = Jinja2Templates(directory=BASE_DIR / "templates")
+
+def secure_url_for(request, name, **path_params):
+    url = request.url_for(name, **path_params)
+    secure_url = url.replace(scheme="https")
+    return secure_url
+
+
+
+templates.env.globals["secure_url_for"] = secure_url_for
 
 
 @app.get("/", response_class=HTMLResponse)

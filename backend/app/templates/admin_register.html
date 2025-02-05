@@ -2,7 +2,7 @@
 
 {% block extra_css %}
 {{ super() }}
-<link href="{{ url_for('static', path='css/login.css') }}" rel="stylesheet">
+<link href="{{ secure_url_for(request, 'static', path='css/login.css') }}" rel="stylesheet">
 {% endblock %}
 
 {% block content %}
@@ -77,5 +77,5 @@
 {% endblock %}
 
 {% block extra_js %}
-<script type="module" src="{{ url_for('static', path='js/admin_register.js') }}"></script>
+<script type="module" src="{{ secure_url_for(request, 'static', path='js/admin_register.js') }}"></script>
 {% endblock %}

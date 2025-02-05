@@ -1,14 +1,16 @@
+import { showAlert, showPopupAlert} from './conmon.js';
+
 document.addEventListener("DOMContentLoaded", function () {
     const loginForm = document.getElementById("loginForm");
 
     loginForm.addEventListener("submit", async function (event) {
-        event.preventDefault();  // Prevent the form from submitting in the traditional way
+        event.preventDefault();  // Empêche le formulaire de s'envoyer de manière traditionnelle
 
-        // Extract form values
+        // Extraire les valeurs du formulaire
         const formData = new FormData(loginForm);
 
         try {
-            // Make a POST request to the server for login
+            // Faire une requête POST vers le serveur pour la connexion
             const response = await fetch("/login/", {
                 method: "POST",
                 body: formData
@@ -16,57 +18,34 @@ document.addEventListener("DOMContentLoaded", function () {
 
             if (!response.ok) {
                 const errorData = await response.json();
-                let errorMessage = "Login failed. Please try again.";
+                let errorMessage = "Échec de la connexion ! réessayez encore.";
                 
                 if (errorData && errorData.detail) {
                     errorMessage = errorData.detail;
                 }
 
-                showAlert(errorMessage, "danger", "#alertContainer");
+                showPopupAlert(errorMessage);
                 return;
             }
-
-            
-
-            // If the response is okay, assume login is successful
             const responseData = await response.json();
-
 
             document.addEventListener("DOMContentLoaded", () => {
                 const logoModalElement = document.getElementById("logoTransitionModal");
-            
-                if (logoModalElement) {
-                    // Show the modal
-                    logoModalElement.classList.add("visible");
-                    logoModalElement.classList.remove("hidden");
-                    console.log("Logo modal displayed");
-            
-                    // Hide the modal after 5 seconds
-                    setTimeout(() => {
-                        logoModalElement.classList.add("hidden");
-                        logoModalElement.classList.remove("visible");
-                        console.log("Logo modal hidden");
-                    }, 5000);
-                } else {
-                    console.error("Modal element not found in DOM.");
-                }
+                // Vous pouvez ajouter ici le code nécessaire pour manipuler le modal si besoin
             });
 
             if (responseData.redirect_url) {
                 window.location.href = responseData.redirect_url;
             } else {
-                showAlert("Login successful! Redirecting to home...", "success", "#alertContainer");
-                /* setTimeout(() => {
-                    window.location.href = "/home";
-                }, 1000);*/
+                alert("Connexion réussie ! Redirection vers la page d'accueil...");
             }
 
         } catch (error) {
-            console.error("Network Error:", error);
-            showAlert("A network error occurred. Please check your network and try again.", "danger", "#alertContainer");
+            showPopupAlert("Une erreur réseau s'est produite. Veuillez vérifier votre connexion et réessayer.");
         }
     });
 });
+
 
 // LOGOUT BUTTON SETTINGS
 
@@ -91,12 +70,10 @@ document.addEventListener("DOMContentLoaded", function () {
                 window.location.href = "/admin-login";
             } else {
                 const errorData = await response.json();
-                console.error("Erreur de déconnexion :", errorData);
-                alert("Échec de la déconnexion. Veuillez réessayer.");
+                showPopupAlert("Échec de la déconnexion. Veuillez réessayer.");
             }
         } catch (error) {
-            console.error("Erreur réseau :", error);
-            alert("Une erreur réseau s'est produite. Veuillez réessayer plus tard.");
+            showPopupAlert("Une erreur réseau s'est produite. Veuillez réessayer plus tard.");
         }
     });
 });

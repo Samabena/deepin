@@ -212,9 +212,9 @@ def verify_user_account(db: Session,user_id: int, token: str):
 def login_user(db: Session, email: str, password: str):
     user = authenticate_user(db, email, password)
     if not user:
-        raise HTTPException(status_code=400, detail="Invalid credentials")
+        raise HTTPException(status_code=400, detail="Identifiants invalides")
     if not user.is_verified:
-        raise HTTPException(status_code=400, detail="Email not verified")
+        raise HTTPException(status_code=400, detail="Email non vérifié")
     user = create_session(db, user.id)
     formatted_name = user.fullname.lower().replace(" ", "-")
     return user, f"/admin/{formatted_name}"
